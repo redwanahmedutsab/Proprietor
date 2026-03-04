@@ -1,0 +1,26 @@
+django
+djangorestframework
+django-cors-headers
+django-filter==24.2
+
+# Authentication
+djangorestframework-simplejwt
+
+# Database
+psycopg2-binary
+
+# Image upload support
+Pillow
+
+# Environment variables
+python-dotenv
+
+# API documentation
+drf-yasg
+
+# Production server
+gunicorn
+
+# Utilities
+requests
+django-extensions
