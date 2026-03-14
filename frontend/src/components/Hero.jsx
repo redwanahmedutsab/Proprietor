@@ -1,16 +1,30 @@
+import {useEffect, useState} from "react";
+
 export default function Hero() {
-  return (
-    <div className="hero">
 
-      <h1>Manage Your Business Smarter</h1>
+    const [message, setMessage] = useState("");
 
-      <p>
-        Proprietor helps entrepreneurs manage clients,
-        inventory and finances easily.
-      </p>
+    useEffect(() => {
+        fetch("https://proprietor.onrender.com/api/test/")
+            .then((response) => response.json())
+            .then((data) => {
+                console.log(data);
+                setMessage(data.message);
+            })
+            .catch((error) => console.error("Error:", error));
+    }, []);
 
-      <button>Get Started</button>
+    return (
+        <div className="hero">
 
-    </div>
-  );
+            <h1>Proprietor</h1>
+            <h2>Welcome to Proprietor a website where will be able to bus sell your properties in a convinient
+                way...</h2>
+
+            <p>{message}</p>
+
+            <button>Get Started</button>
+
+        </div>
+    );
 }
