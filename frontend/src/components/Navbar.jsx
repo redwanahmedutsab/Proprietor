@@ -1,24 +1,17 @@
 import { Link } from "react-router-dom";
 
-function Navbar() {
+export default function Navbar() {
   return (
-    <nav style={{
-      display: "flex",
-      justifyContent: "space-between",
-      padding: "20px",
-      background: "#222",
-      color: "white"
-    }}>
+    <nav className="navbar">
 
-      <h2>Proprietor AI</h2>
+      <h2 className="logo">Proprietor</h2>
 
-      <div>
-        <Link to="/" style={{marginRight: "15px", color:"white"}}>Home</Link>
-        <Link to="/login" style={{color:"white"}}>Login</Link>
+      <div className="nav-links">
+        <Link to="/">Home</Link>
+        <Link to="/login">Login</Link>
+        <Link to="/signup">Sign Up</Link>
       </div>
 
     </nav>
   );
 }
-
-export default Navbar;

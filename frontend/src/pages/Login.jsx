@@ -1,28 +1,28 @@
-import Navbar from "../components/Navbar";
+import { useNavigate } from "react-router-dom";
 
-function Login() {
+export default function Login() {
+
+  const navigate = useNavigate();
+
+  const handleLogin = () => {
+    navigate("/dashboard");
+  };
+
   return (
-    <div>
+    <div className="auth-container">
 
-      <Navbar />
-
-      <div style={{
-        textAlign: "center",
-        marginTop: "100px"
-      }}>
+      <div className="auth-card">
 
         <h2>Login</h2>
 
-        <input placeholder="Email" /><br/><br/>
+        <input type="email" placeholder="Email" />
 
-        <input placeholder="Password" type="password"/><br/><br/>
+        <input type="password" placeholder="Password" />
 
-        <button>Login</button>
+        <button onClick={handleLogin}>Login</button>
 
       </div>
 
     </div>
   );
 }
-
-export default Login;
