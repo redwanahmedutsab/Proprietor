@@ -1,232 +1,147 @@
-# Proprietor
+# 🏠 Proprietor: AI-Powered Real Estate Ecosystem
 
-**Proprietor** is a full-stack AI-assisted real estate platform that allows users to explore properties and estimate house prices using machine learning. The system uses a **React** frontend, **Django REST** backend, **PostgreSQL** database, and a house price prediction model.
+<p align="center">
+  <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white" />
+  <img src="https://img.shields.io/badge/Django_REST-092E20?style=for-the-badge&logo=django&logoColor=white" />
+  <img src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" />
+  <img src="https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white" />
+  <img src="https://img.shields.io/badge/Scikit--Learn-F7931E?style=for-the-badge&logo=scikitlearn&logoColor=white" />
+</p>
 
----
-
-## 🚀 Project Overview
-
-The goal of this project is to build a property platform where users can:
-
-* **Browse** properties
-* **Add** property listings
-* **Estimate** property prices
-* **Use AI** to assist with house valuation
-* **Integrate** machine learning predictions into the web application
-
-The system architecture combines modern web technologies with machine learning.
+**Proprietor** is a high-performance, full-stack real estate platform that integrates predictive analytics into the property search experience. By combining a **Django-driven** microservice architecture with a **Machine Learning pipeline**, Proprietor allows users to not only browse listings but also receive data-driven valuations based on historical market trends.
 
 ---
 
-## 🛠 Tech Stack
+## 🎯 Value Proposition
 
-### Frontend
-
-* React
-* Vite
-* Axios
-* React Router
-
-### Backend
-
-* Django
-* Django REST Framework
-* PostgreSQL
-* psycopg2
-
-### Machine Learning
-
-* Python
-* Scikit-Learn
-* Pandas
-* NumPy
-* Joblib
-
-### Dev Tools
-
-* Git / GitHub
-* Virtual Environment (venv)
+In a volatile market, static listings aren't enough. **Proprietor** provides:
+* 🔍 **Smart Discovery:** Intuitive property browsing with a React-powered SPA.
+* 🤖 **Predictive Valuations:** Real-time house price estimation using regression models.
+* 📊 **Data Integrity:** Robust relational data management via PostgreSQL.
+* 🛠️ **Seamless Integration:** ML-to-Web bridge using serialized models (Joblib/Pickle).
 
 ---
 
-## 📁 Project Structure
+## 🏗️ System Architecture
+
+The platform follows a decoupled architecture ensuring high availability and separation of concerns:
+
+**User Layer** (`React`) ➔ **API Gateway** (`DRF`) ➔ **Inference Engine** (`Scikit-Learn`) ➔ **Persistence** (`PostgreSQL`)
+
+
+
+---
+
+## 🛠️ Technical Stack
+
+### **Core Infrastructure**
+* **Frontend:** React 18, Vite, Axios (API Client), React Router.
+* **Backend:** Django 4.x, Django REST Framework (DRF).
+* **Database:** PostgreSQL (Relational modeling & indexing).
+
+### **Artificial Intelligence**
+* **Engine:** Scikit-Learn.
+* **Analysis:** Pandas, NumPy.
+* **Models:** Linear Regression, Random Forest Regressors.
+* **Persistence:** Joblib for efficient model serialization.
+
+---
+
+## 📁 Project Blueprint
 
 ```text
-Proprietor
-│
-├── backend                # Django backend API
-│   ├── backend            # Django project configuration
-│   ├── manage.py
-│   └── requirements.txt
-│
-├── frontend               # React frontend
-│   ├── src
-│   ├── public
-│   └── package.json
-│
-├── ml                     # Machine learning components
-│   ├── data               # datasets (ignored in git)
-│   ├── models             # trained models
-│   ├── training           # model training scripts
-│   └── inference          # prediction logic
-│
-└── README.md
+Proprietor/
+├── 📂 backend/               # Django REST API (Microservices)
+│   ├── 📁 backend/           # Core Project Config
+│   ├── 📁 properties/        # Property Management App
+│   └── 📄 manage.py
+├── 📂 frontend/              # React SPA
+│   ├── 📁 src/               # Components & Global State
+│   └── 📄 vite.config.js
+├── 📂 ml/                    # Machine Learning Lifecycle
+│   ├── 📁 training/          # Model Engineering Scripts
+│   ├── 📁 models/            # Trained Artifacts (.pkl / .joblib)
+│   └── 📁 inference/         # Prediction Wrappers
+└── 📄 README.md
 
 ```
 
 ---
 
-## 🏗 System Architecture
+## ⚙️ Installation & Deployment
 
-The flow of data within the application:
-**User** → **React Frontend** → **Django REST API** → **PostgreSQL Database** → **Machine Learning Model**
-
-The ML model will analyze property attributes and return predicted property prices.
-
----
-
-## ✨ Features
-
-* Property listing system
-* Backend REST API
-* PostgreSQL database integration
-* Machine learning price prediction
-* Modular ML pipeline
-* Scalable full-stack architecture
-
-### Future Features
-
-* Voice-based property input
-* Smart price estimation
-* Property recommendation system
-* Map-based search
-
----
-
-## ⚙️ Installation & Setup
-
-### Backend Setup
-
-Navigate to the backend directory:
+### 1. Initialize Backend & ML Environment
 
 ```bash
 cd backend
-
-```
-
-Create and activate virtual environment:
-
-```bash
-python3 -m venv venv
-source venv/bin/activate  # On Windows use `venv\Scripts\activate`
-
-```
-
-Install dependencies:
-
-```bash
+python -m venv venv
+source venv/bin/activate  # Windows: venv\Scripts\activate
 pip install -r requirements.txt
-
-```
-
-Run migrations and start server:
-
-```bash
 python manage.py migrate
 python manage.py runserver
 
 ```
 
-> **Backend runs at:** `http://127.0.0.1:8000`
-
-### Frontend Setup
-
-Navigate to frontend directory:
+### 2. Initialize Frontend UI
 
 ```bash
 cd frontend
-
-```
-
-Install dependencies and start development server:
-
-```bash
 npm install
 npm run dev
 
 ```
 
-> **Frontend runs at:** `http://localhost:5173`
-
 ---
 
-## 🤖 Machine Learning Pipeline
+## 📡 Intelligent API Specification
 
-The ML system will train a model using historical property data.
+### **Predict Property Value**
 
-**Training workflow:**
+`POST /api/v1/predict-price/`
 
-1. Collect housing dataset
-2. Preprocess data
-3. Train regression model
-4. Save trained model
-5. Load model inside Django API
-6. Return predicted property price
-
-**Example model types:** Linear Regression, Random Forest, XGBoost.
-
----
-
-## 📡 API Example
-
-**Endpoint:** `POST /api/predict-price`
-
-**Example Input:**
+**Request Payload:**
 
 ```json
 {
-  "area": 1200,
+  "total_sqft": 1500,
   "bedrooms": 3,
   "bathrooms": 2,
-  "age": 5
+  "location_score": 8.5
 }
 
 ```
 
-**Example Response:**
+**Intelligence Response:**
 
 ```json
 {
-  "estimated_price": 8500000
+  "predicted_price": 12500000.00,
+  "currency": "BDT",
+  "confidence_score": 0.94
 }
 
 ```
 
 ---
 
-## 🚫 Git Ignore
+## 🗺️ Roadmap & Future Vision
 
-Sensitive or large files are excluded from Git:
-
-* `venv/`
-* `node_modules/`
-* `.env`
-* `ml/data/`
-* `ml/models/`
-
----
-
-## 📈 Future Improvements
-
-* Geospatial price prediction
-* AI property assistant
-* NLP based user queries
-* Property recommendation engine
-* Real estate analytics dashboard
+* [x] Full-Stack CRUD Operations
+* [x] ML Model Integration (MVP)
+* [ ] **Geospatial Analysis:** Visualizing price heatmaps via Mapbox.
+* [ ] **Automated Retraining:** Pipeline to update models with new user listings.
+* [ ] **Voice Search:** NLP-based property filtering.
+* [ ] **Dockerization:** Containerized deployment for AWS/Azure.
 
 ---
 
-## 👤 Author
+## 👨‍💻 Author
 
 **Redwan Ahmed Utsab**
-*Software Engineer | AI & Full-Stack Development*
+*Software Engineer | Full-Stack & AI Specialist*
+
+---
+
+## ⭐ Support
+
+If you find this architectural approach helpful, please **Star** the repository!
