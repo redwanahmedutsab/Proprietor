@@ -2,7 +2,7 @@
 // Shown after returning from SSLCommerz gateway
 
 import { useEffect, useState } from 'react';
-import { useSearchParams, useNavigate, useParams } from 'react-router-dom';
+import { useSearchParams, useNavigate } from 'react-router-dom';
 import { getPaymentStatus } from '../api/bookingAPI';
 
 const PaymentResult = ({ result }) => {
