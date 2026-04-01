@@ -1,147 +1,337 @@
-# 🏠 Proprietor: AI-Powered Real Estate Ecosystem
+# Proprietor 🏘️
 
-<p align="center">
-  <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white" />
-  <img src="https://img.shields.io/badge/Django_REST-092E20?style=for-the-badge&logo=django&logoColor=white" />
-  <img src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" />
-  <img src="https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white" />
-  <img src="https://img.shields.io/badge/Scikit--Learn-F7931E?style=for-the-badge&logo=scikitlearn&logoColor=white" />
-</p>
+> A full-stack real estate platform for Bangladesh — built with Django REST Framework, React, and PostgreSQL.
 
-**Proprietor** is a high-performance, full-stack real estate platform that integrates predictive analytics into the property search experience. By combining a **Django-driven** microservice architecture with a **Machine Learning pipeline**, Proprietor allows users to not only browse listings but also receive data-driven valuations based on historical market trends.
+Inspired by Airbnb and Zillow, Proprietor lets users browse, list, book, and pay for properties across Bangladesh. It features JWT authentication, SSLCommerz payment integration, a 3D virtual tour embed system, and a full admin approval workflow.
 
 ---
 
-## 🎯 Value Proposition
+## 🖥️ Live Demo
 
-In a volatile market, static listings aren't enough. **Proprietor** provides:
-* 🔍 **Smart Discovery:** Intuitive property browsing with a React-powered SPA.
-* 🤖 **Predictive Valuations:** Real-time house price estimation using regression models.
-* 📊 **Data Integrity:** Robust relational data management via PostgreSQL.
-* 🛠️ **Seamless Integration:** ML-to-Web bridge using serialized models (Joblib/Pickle).
-
----
-
-## 🏗️ System Architecture
-
-The platform follows a decoupled architecture ensuring high availability and separation of concerns:
-
-**User Layer** (`React`) ➔ **API Gateway** (`DRF`) ➔ **Inference Engine** (`Scikit-Learn`) ➔ **Persistence** (`PostgreSQL`)
-
-
+| Service | URL    |
+|---------|--------|
+| Frontend | Vercel |
+| Backend API | Render |
+| Admin Panel | `/admin` |
 
 ---
 
-## 🛠️ Technical Stack
+## ✨ Features
 
-### **Core Infrastructure**
-* **Frontend:** React 18, Vite, Axios (API Client), React Router.
-* **Backend:** Django 4.x, Django REST Framework (DRF).
-* **Database:** PostgreSQL (Relational modeling & indexing).
+### 👀 Without Login
+- Browse and search properties
+- Filter by city, price, category, bedrooms
+- View property details with image gallery
+- Embed 3D / virtual tours (YouTube & Matterport)
+- See property location on Google Maps
 
-### **Artificial Intelligence**
-* **Engine:** Scikit-Learn.
-* **Analysis:** Pandas, NumPy.
-* **Models:** Linear Regression, Random Forest Regressors.
-* **Persistence:** Joblib for efficient model serialization.
+### 🔐 With Login
+- Register / login with JWT authentication
+- Post property listings with multiple image uploads
+- Book properties for rent or purchase
+- Pay online via SSLCommerz (bKash, Nagad, Rocket, cards)
+- Meet & Pay offline option
+- Save properties to wishlist ❤️
+- Leave star ratings and reviews
+- Manage listings from personal dashboard
+
+### 👑 Admin
+- Approve or reject property listings
+- Manage users, bookings, and payments
+- Bulk actions from Django Admin panel
 
 ---
 
-## 📁 Project Blueprint
+## 🧱 Tech Stack
 
-```text
+| Layer | Technology |
+|-------|-----------|
+| Frontend | React 18, React Router v6, Axios |
+| Backend | Django 4.2, Django REST Framework |
+| Auth | JWT (SimpleJWT) with refresh token rotation |
+| Database | PostgreSQL |
+| Payments | SSLCommerz (Bangladesh gateway) |
+| Storage | Django media files (local / cloud) |
+| Deployment | Render (backend) + Vercel (frontend) |
+
+---
+
+## 📁 Project Structure
+
+```
 Proprietor/
-├── 📂 backend/               # Django REST API (Microservices)
-│   ├── 📁 backend/           # Core Project Config
-│   ├── 📁 properties/        # Property Management App
-│   └── 📄 manage.py
-├── 📂 frontend/              # React SPA
-│   ├── 📁 src/               # Components & Global State
-│   └── 📄 vite.config.js
-├── 📂 ml/                    # Machine Learning Lifecycle
-│   ├── 📁 training/          # Model Engineering Scripts
-│   ├── 📁 models/            # Trained Artifacts (.pkl / .joblib)
-│   └── 📁 inference/         # Prediction Wrappers
-└── 📄 README.md
-
+├── backend/
+│   ├── config/          # Django settings, urls, wsgi
+│   ├── users/           # Custom user model, JWT auth
+│   ├── properties/      # Property listings, images, wishlist
+│   ├── bookings/        # Rent & buy booking system
+│   ├── payments/        # SSLCommerz payment integration
+│   ├── reviews/         # Star ratings & reviews
+│   ├── utils/           # Email notification helpers
+│   ├── manage.py
+│   └── requirements.txt
+│
+├── frontend/
+│   ├── public/
+│   └── src/
+│       ├── api/         # Axios API calls (auth, property, booking)
+│       ├── components/  # Navbar, Footer, PropertyCard, MapView, etc.
+│       ├── context/     # AuthContext (global auth state)
+│       ├── hooks/       # useAuth, useProperties
+│       ├── pages/       # Home, Properties, Detail, Dashboard, etc.
+│       └── styles/      # Global CSS, booking styles, polish
+│
+├── vercel.json
+└── README.md
 ```
 
 ---
 
-## ⚙️ Installation & Deployment
+## 🗄️ Database Models
 
-### 1. Initialize Backend & ML Environment
+```
+CustomUser
+ ├── Properties (1:N)
+ ├── Bookings (1:N)
+ ├── Reviews (1:N)
+ └── Wishlist (1:N)
 
+Property
+ ├── PropertyImage (1:N)
+ ├── Bookings (1:N)
+ ├── Reviews (1:N)
+ └── Wishlist (1:N)
+
+Booking
+ └── Payment (1:1)
+```
+
+---
+
+## 🔌 API Endpoints
+
+### Auth — `/api/auth/`
+| Method | Endpoint | Access | Description |
+|--------|----------|--------|-------------|
+| POST | `register/` | Open | Create new account |
+| POST | `login/` | Open | Get JWT tokens |
+| POST | `token/refresh/` | Open | Refresh access token |
+| GET | `profile/` | Auth | Get own profile |
+| PATCH | `profile/` | Auth | Update profile |
+| POST | `change-password/` | Auth | Change password |
+| POST | `logout/` | Auth | Blacklist refresh token |
+
+### Properties — `/api/properties/`
+| Method | Endpoint | Access | Description |
+|--------|----------|--------|-------------|
+| GET | `/` | Open | List with filters |
+| POST | `/` | Auth | Create listing |
+| GET | `/<id>/` | Open | Property detail |
+| PATCH | `/<id>/` | Owner | Update listing |
+| DELETE | `/<id>/` | Owner | Delete listing |
+| GET | `/mine/` | Auth | My listings |
+| GET | `/featured/` | Open | Featured properties |
+| POST | `/<id>/images/` | Owner | Upload images |
+| POST | `/<id>/approve/` | Admin | Approve listing |
+| POST | `/<id>/wishlist/` | Auth | Toggle wishlist |
+
+### Bookings — `/api/bookings/`
+| Method | Endpoint | Access | Description |
+|--------|----------|--------|-------------|
+| POST | `/` | Auth | Create booking |
+| GET | `/mine/` | Auth | My bookings |
+| GET | `/<id>/` | Auth | Booking detail |
+| POST | `/<id>/cancel/` | Auth | Cancel booking |
+
+### Payments — `/api/payments/`
+| Method | Endpoint | Access | Description |
+|--------|----------|--------|-------------|
+| POST | `/initiate/<bookingId>/` | Auth | Start SSLCommerz session |
+| POST | `/success/` | IPN | Payment confirmed callback |
+| POST | `/fail/` | IPN | Payment failed callback |
+| GET | `/status/<bookingId>/` | Auth | Poll payment status |
+
+### Reviews — `/api/properties/<id>/reviews/`
+| Method | Endpoint | Access | Description |
+|--------|----------|--------|-------------|
+| GET | `/` | Open | List reviews |
+| POST | `/` | Auth | Add review |
+| DELETE | `/api/reviews/<id>/` | Owner | Delete review |
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+- Python 3.10+
+- Node.js 18+
+- PostgreSQL
+- Git
+
+### 1. Clone the repo
+```bash
+git clone https://github.com/yourusername/Proprietor.git
+cd Proprietor
+```
+
+### 2. Backend Setup
 ```bash
 cd backend
+
+# Create virtual environment
 python -m venv venv
-source venv/bin/activate  # Windows: venv\Scripts\activate
+source venv/bin/activate   # Windows: venv\Scripts\activate
+
+# Install dependencies
 pip install -r requirements.txt
+
+# Set up environment variables
+cp .env.example .env
+# Edit .env with your DB credentials and secret key
+
+# Create migrations and migrate
+python manage.py makemigrations users
+python manage.py makemigrations properties
+python manage.py makemigrations bookings
+python manage.py makemigrations payments
+python manage.py makemigrations reviews
 python manage.py migrate
+
+# Create admin user
+python manage.py createsuperuser
+
+# Run the server
 python manage.py runserver
-
 ```
 
-### 2. Initialize Frontend UI
+Backend running at: `http://localhost:8000`
 
+### 3. Frontend Setup
 ```bash
-cd frontend
+cd ../frontend
+
+# Install dependencies
 npm install
-npm run dev
 
+# Set up environment variables
+cp .env.example .env
+# Edit .env — set REACT_APP_API_URL=http://localhost:8000/api
+
+# Start dev server
+npm start
+```
+
+Frontend running at: `http://localhost:3000`
+
+---
+
+## ⚙️ Environment Variables
+
+### Backend — `backend/.env`
+```env
+SECRET_KEY=your-secret-key-here
+DEBUG=True
+ALLOWED_HOSTS=localhost,127.0.0.1
+
+DB_NAME=realestate_db
+DB_USER=postgres
+DB_PASSWORD=yourpassword
+DB_HOST=localhost
+DB_PORT=5432
+
+CORS_ALLOWED_ORIGINS=http://localhost:3000
+FRONTEND_URL=http://localhost:3000
+
+SSLCOMMERZ_STORE_ID=testbox
+SSLCOMMERZ_STORE_PASS=qwerty
+SSLCOMMERZ_SANDBOX=True
+
+EMAIL_HOST_USER=your.email@gmail.com
+EMAIL_HOST_PASSWORD=your-app-password
+```
+
+### Frontend — `frontend/.env`
+```env
+REACT_APP_API_URL=http://localhost:8000/api
 ```
 
 ---
 
-## 📡 Intelligent API Specification
-
-### **Predict Property Value**
-
-`POST /api/v1/predict-price/`
-
-**Request Payload:**
-
-```json
-{
-  "total_sqft": 1500,
-  "bedrooms": 3,
-  "bathrooms": 2,
-  "location_score": 8.5
-}
+## 💳 SSLCommerz Payment Flow
 
 ```
-
-**Intelligence Response:**
-
-```json
-{
-  "predicted_price": 12500000.00,
-  "currency": "BDT",
-  "confidence_score": 0.94
-}
-
+User clicks "Book" → fills BookingPage form
+  → POST /api/bookings/ (booking created, status: pending)
+  → POST /api/payments/initiate/:id/ (calls SSLCommerz API)
+  → Redirect to SSLCommerz gateway (bKash / Nagad / Card)
+  → SSLCommerz POSTs to /api/payments/success/ (IPN)
+  → Django verifies transaction server-side
+  → Booking status → confirmed ✅
+  → Frontend polls /api/payments/status/ → shows result
 ```
+
+Get sandbox credentials at [developer.sslcommerz.com](https://developer.sslcommerz.com)
 
 ---
 
-## 🗺️ Roadmap & Future Vision
+## 🌍 Deployment
 
-* [x] Full-Stack CRUD Operations
-* [x] ML Model Integration (MVP)
-* [ ] **Geospatial Analysis:** Visualizing price heatmaps via Mapbox.
-* [ ] **Automated Retraining:** Pipeline to update models with new user listings.
-* [ ] **Voice Search:** NLP-based property filtering.
-* [ ] **Dockerization:** Containerized deployment for AWS/Azure.
+### Backend → Render.com
+1. Push to GitHub
+2. Go to [render.com](https://render.com) → New → Blueprint
+3. Connect your repo — `render.yaml` is already configured
+4. Add secret env vars in the Render dashboard
+5. Deploy
+
+### Frontend → Vercel
+1. Go to [vercel.com](https://vercel.com) → New Project
+2. Import your GitHub repo
+3. Set root directory to `frontend/`
+4. Add env var: `REACT_APP_API_URL=https://your-app.onrender.com/api`
+5. Deploy
+
+After both are deployed, update `FRONTEND_URL` and `CORS_ALLOWED_ORIGINS` in your Render env vars to your Vercel URL.
+
+---
+
+## 🗺️ Pages
+
+| Route | Page | Access |
+|-------|------|--------|
+| `/` | Home — hero, search, featured | Public |
+| `/properties` | Property listings with filters | Public |
+| `/properties/:id` | Property detail, gallery, 3D tour | Public |
+| `/login` | Login | Public |
+| `/register` | Register | Public |
+| `/dashboard` | User dashboard, listings, wishlist | Auth |
+| `/post-property` | Create new listing | Auth |
+| `/book/:propertyId` | Booking form + payment | Auth |
+| `/payment/success` | Payment confirmed | Public |
+| `/payment/fail` | Payment failed | Public |
+
+---
+
+## 🤝 Contributing
+
+Pull requests are welcome. For major changes please open an issue first.
+
+1. Fork the repo
+2. Create your branch: `git checkout -b feature/your-feature`
+3. Commit: `git commit -m 'Add your feature'`
+4. Push: `git push origin feature/your-feature`
+5. Open a Pull Request
+
+---
+
+## 📄 License
+
+This project is licensed under the MIT License.
 
 ---
 
 ## 👨‍💻 Author
 
 **Redwan Ahmed Utsab**
-*Software Engineer | Full-Stack & AI Specialist*
+- GitHub: [@redwanahmedutsab](https://github.com/redwanahmedutsab)
 
 ---
-
-## ⭐ Support
-
-If you find this architectural approach helpful, please **Star** the repository!

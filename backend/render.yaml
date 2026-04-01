@@ -1,0 +1,60 @@
+# render.yaml — Deploy Django to Render.com
+# Place in the root of your repository
+
+services:
+  - type: web
+    name: bdproperty-backend
+    env: python
+    buildCommand: |
+      pip install -r backend/requirements.txt
+      cd backend
+      python manage.py collectstatic --no-input
+      python manage.py migrate
+    startCommand: cd backend && gunicorn config.wsgi:application --bind 0.0.0.0:$PORT
+    envVars:
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DEBUG
+        value: "False"
+      - key: ALLOWED_HOSTS
+        value: ".onrender.com"
+      - key: DB_NAME
+        fromDatabase:
+          name: bdproperty-db
+          property: database
+      - key: DB_USER
+        fromDatabase:
+          name: bdproperty-db
+          property: user
+      - key: DB_PASSWORD
+        fromDatabase:
+          name: bdproperty-db
+          property: password
+      - key: DB_HOST
+        fromDatabase:
+          name: bdproperty-db
+          property: host
+      - key: DB_PORT
+        fromDatabase:
+          name: bdproperty-db
+          property: port
+      - key: FRONTEND_URL
+        value: "https://your-app.vercel.app"    # update after Vercel deploy
+      - key: CORS_ALLOWED_ORIGINS
+        value: "https://your-app.vercel.app"    # update after Vercel deploy
+      - key: SSLCOMMERZ_STORE_ID
+        sync: false    # set manually in Render dashboard
+      - key: SSLCOMMERZ_STORE_PASS
+        sync: false
+      - key: SSLCOMMERZ_SANDBOX
+        value: "False"
+      - key: EMAIL_HOST_USER
+        sync: false
+      - key: EMAIL_HOST_PASSWORD
+        sync: false
+
+databases:
+  - name: bdproperty-db
+    databaseName: realestate_db
+    user: bdproperty
+    plan: free

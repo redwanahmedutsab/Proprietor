@@ -1,22 +1,30 @@
-asgiref==3.11.1
-certifi==2026.2.25
-charset-normalizer==3.4.4
-Django==5.2.12
-django-cors-headers==4.9.0
-django-extensions==4.1
-django-filter==24.2
-djangorestframework==3.16.1
-djangorestframework_simplejwt==5.5.1
-drf-yasg==1.21.15
-gunicorn==25.1.0
-psycopg2-binary==2.9.11
-PyJWT==2.11.0
-python-dotenv==1.2.2
-requests==2.32.5
-sqlparse==0.5.5
-typing_extensions==4.15.0
-uritemplate==4.2.0
-urllib3==2.6.3
+# backend/requirements.txt — All packages for all phases
 
-whitenoise
-dj-database-url
+# Django core
+Django==4.2.9
+djangorestframework==3.14.0
+djangorestframework-simplejwt==5.3.1
+
+# Database
+psycopg2-binary==2.9.9
+
+# CORS
+django-cors-headers==4.3.1
+
+# Filters + pagination
+django-filter==23.5
+
+# Image handling
+Pillow==10.2.0
+
+# Environment variables
+python-dotenv==1.0.0
+
+# HTTP requests (SSLCommerz calls)
+requests==2.31.0
+
+# Static files (production)
+whitenoise==6.6.0
+
+# Production WSGI server
+gunicorn==21.2.0
