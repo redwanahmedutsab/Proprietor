@@ -1,0 +1,430 @@
+/* src/styles/about.css
+   About Us page styles — add to your styles/ folder
+   Import in App.jsx: import './styles/about.css';
+*/
+
+/* ── Page base ────────────────────────────────────────── */
+.about-page {
+    background: #f8fafc;
+    min-height: 100vh;
+}
+
+/* ── Scroll animations ────────────────────────────────── */
+.fade-up {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.fade-up.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ── Hero ─────────────────────────────────────────────── */
+.about-hero {
+    position: relative;
+    background: #0f172a;
+    padding: 7rem 0 5rem;
+    overflow: hidden;
+}
+
+.about-hero-bg {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+}
+
+.hero-grid-pattern {
+    position: absolute;
+    inset: 0;
+    background-image: linear-gradient(rgba(26, 86, 219, .08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(26, 86, 219, .08) 1px, transparent 1px);
+    background-size: 48px 48px;
+}
+
+.about-hero::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 80px;
+    background: linear-gradient(to top, #f8fafc, transparent);
+}
+
+.about-hero-content {
+    position: relative;
+    z-index: 1;
+    max-width: 680px;
+}
+
+.about-eyebrow {
+    display: inline-block;
+    background: rgba(26, 86, 219, .2);
+    border: 1px solid rgba(26, 86, 219, .35);
+    color: #60a5fa;
+    font-size: .75rem;
+    font-weight: 700;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+    padding: .35em 1.1em;
+    border-radius: 50px;
+    margin-bottom: 1.4rem;
+}
+
+.about-hero-title {
+    font-size: clamp(2.2rem, 5vw, 3.5rem);
+    font-weight: 800;
+    color: #fff;
+    line-height: 1.12;
+    margin-bottom: 1.2rem;
+    letter-spacing: -0.02em;
+}
+
+.about-hero-accent {
+    color: #1a56db;
+    position: relative;
+}
+
+.about-hero-sub {
+    color: rgba(255, 255, 255, .65);
+    font-size: 1.05rem;
+    line-height: 1.75;
+    max-width: 540px;
+}
+
+/* ── Stats ────────────────────────────────────────────── */
+.about-stats {
+    padding: 3.5rem 0;
+    background: #fff;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.about-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: #e2e8f0;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid #e2e8f0;
+}
+
+@media (max-width: 600px) {
+    .about-stats-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+.about-stat-card {
+    background: #fff;
+    padding: 2rem 1.5rem;
+    text-align: center;
+    transition: background .2s;
+}
+
+.about-stat-card:hover {
+    background: #f8fafc;
+}
+
+.about-stat-val {
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: #1a56db;
+    letter-spacing: -0.03em;
+    margin-bottom: .3rem;
+}
+
+.about-stat-label {
+    font-size: .78rem;
+    color: #64748b;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: .07em;
+}
+
+/* ── Team section ─────────────────────────────────────── */
+.about-team {
+    padding: 5rem 0;
+}
+
+.about-section-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.about-section-title {
+    font-size: 2rem;
+    font-weight: 800;
+    color: #0f172a;
+    margin-bottom: .5rem;
+    letter-spacing: -0.02em;
+}
+
+.about-section-sub {
+    color: #64748b;
+    font-size: .95rem;
+}
+
+/* ── Developer cards ──────────────────────────────────── */
+.dev-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.dev-card {
+    background: #fff;
+    border-radius: 16px;
+    border: 1px solid #e2e8f0;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, .06), 0 4px 12px rgba(0, 0, 0, .04);
+    transition: box-shadow .3s, transform .3s;
+}
+
+.dev-card:hover {
+    box-shadow: 0 8px 30px rgba(0, 0, 0, .1);
+    transform: translateY(-2px);
+}
+
+.dev-card-bar {
+    height: 4px;
+    width: 100%;
+}
+
+.dev-card-inner {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: 0;
+}
+
+@media (max-width: 800px) {
+    .dev-card-inner {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Left panel */
+.dev-card-left {
+    padding: 2.5rem 2rem;
+    border-right: 1px solid #e2e8f0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    background: #fafbfc;
+}
+
+@media (max-width: 800px) {
+    .dev-card-left {
+        border-right: none;
+        border-bottom: 1px solid #e2e8f0;
+    }
+}
+
+/* Photo */
+.dev-photo-wrap {
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    border: 3px solid;
+    overflow: hidden;
+    margin-bottom: 1.2rem;
+    flex-shrink: 0;
+}
+
+.dev-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.dev-initials {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    font-weight: 800;
+    color: #fff;
+    letter-spacing: -0.02em;
+}
+
+/* Identity */
+.dev-identity {
+    margin-bottom: 1.5rem;
+}
+
+.dev-name {
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: #0f172a;
+    margin-bottom: .3rem;
+}
+
+.dev-designation {
+    font-size: .85rem;
+    font-weight: 700;
+    margin-bottom: .2rem;
+}
+
+.dev-role {
+    font-size: .78rem;
+    color: #94a3b8;
+    font-weight: 500;
+}
+
+/* Social buttons */
+.dev-socials {
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+    width: 100%;
+}
+
+.dev-social-btn {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    padding: .5rem .9rem;
+    border-radius: 7px;
+    border: 1.5px solid #e2e8f0;
+    background: #fff;
+    color: #475569;
+    font-size: .82rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all .2s;
+    justify-content: center;
+}
+
+.dev-social-btn:hover {
+    border-color: var(--hover, #1a56db);
+    color: var(--hover, #1a56db);
+    background: color-mix(in srgb, var(--hover, #1a56db) 8%, white);
+}
+
+/* Right panel */
+.dev-card-right {
+    padding: 2.5rem;
+}
+
+.dev-bio-label,
+.dev-skills-label {
+    font-size: .7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    color: #94a3b8;
+    margin-bottom: .6rem;
+}
+
+.dev-skills-label {
+    margin-top: 1.8rem;
+}
+
+.dev-bio {
+    color: #475569;
+    line-height: 1.8;
+    font-size: .92rem;
+}
+
+/* Skills */
+.dev-skills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .5rem;
+}
+
+.dev-skill-chip {
+    padding: .3em .85em;
+    border-radius: 50px;
+    font-size: .75rem;
+    font-weight: 700;
+    border: 1px solid;
+}
+
+/* ── Story section ────────────────────────────────────── */
+.about-story {
+    padding: 0 0 5rem;
+}
+
+.story-card {
+    background: #0f172a;
+    border-radius: 20px;
+    padding: 3.5rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.story-card::before {
+    content: '';
+    position: absolute;
+    top: -60px;
+    right: -60px;
+    width: 240px;
+    height: 240px;
+    border-radius: 50%;
+    background: rgba(26, 86, 219, .12);
+}
+
+.story-card::after {
+    content: '';
+    position: absolute;
+    bottom: -40px;
+    left: -40px;
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    background: rgba(5, 122, 85, .1);
+}
+
+.story-icon {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    position: relative;
+    z-index: 1;
+}
+
+.story-title {
+    font-size: 1.7rem;
+    font-weight: 800;
+    color: #fff;
+    margin-bottom: 1.2rem;
+    letter-spacing: -0.02em;
+    position: relative;
+    z-index: 1;
+}
+
+.story-body {
+    color: rgba(255, 255, 255, .65);
+    line-height: 1.8;
+    font-size: .95rem;
+    max-width: 640px;
+    margin: 0 auto .9rem;
+    position: relative;
+    z-index: 1;
+}
+
+.story-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .6rem;
+    justify-content: center;
+    margin-top: 1.8rem;
+    position: relative;
+    z-index: 1;
+}
+
+.story-tag {
+    background: rgba(255, 255, 255, .08);
+    border: 1px solid rgba(255, 255, 255, .15);
+    color: rgba(255, 255, 255, .8);
+    padding: .4em 1em;
+    border-radius: 50px;
+    font-size: .8rem;
+    font-weight: 600;
+}

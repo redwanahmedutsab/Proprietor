@@ -29,9 +29,12 @@ const Navbar = () => {
 
                 {/* Desktop links */}
                 <div className="nav-links">
-                    <Link to="/" className={`nav-link ${isActive('/') ? 'active' : ''}`}>Home</Link>
+                    <Link to="/"
+                          className={`nav-link ${isActive('/') ? 'active' : ''}`}>Home</Link>
                     <Link to="/properties"
                           className={`nav-link ${isActive('/properties') ? 'active' : ''}`}>Properties</Link>
+                    <Link to="/developers"
+                          className={`nav-link ${isActive('/developers') ? 'active' : ''}`}>Developers</Link>
                 </div>
 
                 {/* Right side */}
