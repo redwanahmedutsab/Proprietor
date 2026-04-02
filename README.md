@@ -8,10 +8,11 @@ Inspired by Airbnb and Zillow, Proprietor lets users browse, list, book, and pay
 
 ## 🖥️ Live Demo
 
-| Service | URL    |
-|---------|--------|
-| Frontend | Vercel |
-| Backend API | Render |
+| Service     | URL      |
+|-------------|----------|
+| Frontend    | Vercel   |
+| Backend API | Render   |
+| Database    | Neon     |
 | Admin Panel | `/admin` |
 
 ---
