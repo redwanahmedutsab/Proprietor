@@ -1,16 +1,13 @@
-# render.yaml — Deploy Django to Render.com
-# Place in the root of your repository
-
 services:
   - type: web
-    name: bdproperty-backend
+    name: proprietor-backend
     env: python
+    pythonVersion: "3.12.0"
     buildCommand: |
-      pip install -r backend/requirements.txt
-      cd backend
+      pip install -r requirements.txt
       python manage.py collectstatic --no-input
       python manage.py migrate
-    startCommand: cd backend && gunicorn config.wsgi:application --bind 0.0.0.0:$PORT
+    startCommand: gunicorn config.wsgi:application --bind 0.0.0.0:$PORT
     envVars:
       - key: SECRET_KEY
         generateValue: true
@@ -19,42 +16,26 @@ services:
       - key: ALLOWED_HOSTS
         value: ".onrender.com"
       - key: DB_NAME
-        fromDatabase:
-          name: bdproperty-db
-          property: database
+        value: "neondb"
       - key: DB_USER
-        fromDatabase:
-          name: bdproperty-db
-          property: user
+        value: "neondb_owner"
       - key: DB_PASSWORD
-        fromDatabase:
-          name: bdproperty-db
-          property: password
+        value: "npg_C0yxonf6jpFE"
       - key: DB_HOST
-        fromDatabase:
-          name: bdproperty-db
-          property: host
+        value: "ep-nameless-wave-amfwxk3v-pooler.c-5.us-east-1.aws.neon.tech"
       - key: DB_PORT
-        fromDatabase:
-          name: bdproperty-db
-          property: port
-      - key: FRONTEND_URL
-        value: "https://your-app.vercel.app"    # update after Vercel deploy
+        value: "5432"
       - key: CORS_ALLOWED_ORIGINS
-        value: "https://your-app.vercel.app"    # update after Vercel deploy
+        value: "https://proprietor.vercel.app"
+      - key: FRONTEND_URL
+        value: "https://proprietor.vercel.app"
       - key: SSLCOMMERZ_STORE_ID
-        sync: false    # set manually in Render dashboard
+        value: "testbox"
       - key: SSLCOMMERZ_STORE_PASS
-        sync: false
+        value: "qwerty"
       - key: SSLCOMMERZ_SANDBOX
-        value: "False"
+        value: "True"
       - key: EMAIL_HOST_USER
         sync: false
       - key: EMAIL_HOST_PASSWORD
         sync: false
-
-databases:
-  - name: bdproperty-db
-    databaseName: realestate_db
-    user: bdproperty
-    plan: free
