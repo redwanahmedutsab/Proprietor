@@ -105,6 +105,7 @@ const Navbar = () => {
                 <div className="mobile-menu">
                     <Link to="/" className="mob-link" onClick={() => setMenuOpen(false)}>Home</Link>
                     <Link to="/properties" className="mob-link" onClick={() => setMenuOpen(false)}>Properties</Link>
+                    <Link to="/developers" className="mob-link" onClick={() => setMenuOpen(false)}>Developers</Link>
                     {isAuthenticated ? (
                         <>
                             <Link to="/dashboard" className="mob-link"
