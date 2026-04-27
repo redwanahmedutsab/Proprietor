@@ -1,6 +1,3 @@
-"""
-bookings/urls.py — prefixed /api/bookings/
-"""
 from django.urls import path
 from .views import (
     BookingCreateView,

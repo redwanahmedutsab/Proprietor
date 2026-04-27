@@ -1,6 +1,3 @@
-// src/components/PropertyCard.jsx
-// Reusable card shown in property listings
-
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import { toggleWishlist } from '../api/propertyAPI';
@@ -38,7 +35,6 @@ const PropertyCard = ({ property, onWishlistChange }) => {
     <Link to={`/properties/${property.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
       <div className="property-card">
 
-        {/* Image */}
         <div className="card-image-wrap">
           {property.primary_image ? (
             <img src={property.primary_image} alt={property.title} className="card-image" />
@@ -46,12 +42,10 @@ const PropertyCard = ({ property, onWishlistChange }) => {
             <div className="card-image-placeholder">🏢</div>
           )}
 
-          {/* Type badge */}
           <span className="type-badge" style={{ background: typeBadge.color }}>
             {typeBadge.label}
           </span>
 
-          {/* Wishlist button */}
           {isAuthenticated && (
             <button className={`wishlist-btn ${wishlisted ? 'active' : ''}`}
                     onClick={handleWishlist} disabled={toggling}>
@@ -64,7 +58,6 @@ const PropertyCard = ({ property, onWishlistChange }) => {
           )}
         </div>
 
-        {/* Info */}
         <div className="card-body">
           <div className="card-price">{formatPrice(property.price)}</div>
           <div className="card-title">{property.title}</div>

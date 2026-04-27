@@ -1,6 +1,3 @@
-"""
-users/serializers.py — Serializers with Validation
-"""
 import re
 from rest_framework import serializers
 from django.contrib.auth.password_validation import validate_password
@@ -8,9 +5,6 @@ from .models import CustomUser
 
 
 class RegisterSerializer(serializers.ModelSerializer):
-    """
-    Handles new user registration with strong validation.
-    """
     password = serializers.CharField(write_only=True, required=True,
                                      validators=[validate_password])
     password2 = serializers.CharField(write_only=True, required=True,
@@ -27,8 +21,6 @@ class RegisterSerializer(serializers.ModelSerializer):
             'last_name': {'required': True},
         }
 
-    # ── Field-level validators ─────────────────────────────
-
     def validate_username(self, value):
         if len(value) < 6:
             raise serializers.ValidationError(
@@ -37,10 +29,6 @@ class RegisterSerializer(serializers.ModelSerializer):
         return value
 
     def validate_phone(self, value):
-        """
-        Accepts Bangladesh mobile numbers:
-        +8801XXXXXXXXX  or  01XXXXXXXXX  (11 digits)
-        """
         if value:
             pattern = r'^(\+8801|01)[3-9]\d{8}$'
             if not re.match(pattern, value):
@@ -54,16 +42,12 @@ class RegisterSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError("This email is already registered.")
         return value.lower()
 
-    # ── Object-level validators ────────────────────────────
-
     def validate(self, attrs):
         if attrs['password'] != attrs['password2']:
             raise serializers.ValidationError(
                 {"password2": "Passwords do not match."}
             )
         return attrs
-
-    # ── Create ────────────────────────────────────────────
 
     def create(self, validated_data):
         validated_data.pop('password2')
@@ -75,9 +59,6 @@ class RegisterSerializer(serializers.ModelSerializer):
 
 
 class UserProfileSerializer(serializers.ModelSerializer):
-    """
-    Read/update the authenticated user's profile.
-    """
     full_name = serializers.ReadOnlyField()
 
     class Meta:
@@ -91,9 +72,6 @@ class UserProfileSerializer(serializers.ModelSerializer):
 
 
 class ChangePasswordSerializer(serializers.Serializer):
-    """
-    Let authenticated users update their password.
-    """
     old_password = serializers.CharField(required=True, write_only=True)
     new_password = serializers.CharField(required=True, write_only=True,
                                          validators=[validate_password])

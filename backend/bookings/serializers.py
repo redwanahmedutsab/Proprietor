@@ -1,6 +1,3 @@
-"""
-bookings/serializers.py
-"""
 from rest_framework import serializers
 from .models import Booking
 
@@ -17,7 +14,6 @@ class BookingCreateSerializer(serializers.ModelSerializer):
         booking_type = attrs.get('booking_type')
         prop = attrs.get('property')
 
-        # Check property type allows this booking type
         if booking_type == 'rent' and prop.property_type == 'buy':
             raise serializers.ValidationError(
                 "This property is only for sale, not rent."
@@ -27,7 +23,6 @@ class BookingCreateSerializer(serializers.ModelSerializer):
                 "This property is only for rent, not for sale."
             )
 
-        # Rent requires dates
         if booking_type == 'rent':
             if not attrs.get('start_date') or not attrs.get('end_date'):
                 raise serializers.ValidationError(
@@ -38,7 +33,6 @@ class BookingCreateSerializer(serializers.ModelSerializer):
                     "End date must be after start date."
                 )
 
-        # Set price snapshot
         attrs['total_price'] = prop.price
 
         return attrs

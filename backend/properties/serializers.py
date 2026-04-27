@@ -1,6 +1,3 @@
-"""
-properties/serializers.py
-"""
 from rest_framework import serializers
 from .models import Property, PropertyImage, Wishlist
 
@@ -13,7 +10,6 @@ class PropertyImageSerializer(serializers.ModelSerializer):
 
 
 class PropertyListSerializer(serializers.ModelSerializer):
-    """Lightweight — used for list/search views."""
     primary_image = serializers.SerializerMethodField()
     owner_name = serializers.CharField(source='owner.full_name', read_only=True)
 
@@ -35,7 +31,6 @@ class PropertyListSerializer(serializers.ModelSerializer):
 
 
 class PropertyDetailSerializer(serializers.ModelSerializer):
-    """Full detail — includes nested images + owner info."""
     images = PropertyImageSerializer(many=True, read_only=True)
     owner_name = serializers.CharField(source='owner.full_name', read_only=True)
     owner_phone = serializers.CharField(source='owner.phone', read_only=True)
@@ -62,7 +57,6 @@ class PropertyDetailSerializer(serializers.ModelSerializer):
 
 
 class PropertyCreateUpdateSerializer(serializers.ModelSerializer):
-    """Used for POST / PUT / PATCH by property owner."""
     uploaded_images = serializers.ListField(
         child=serializers.ImageField(), write_only=True, required=False
     )
@@ -78,13 +72,12 @@ class PropertyCreateUpdateSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         images_data = validated_data.pop('uploaded_images', [])
-        # Owner is set from the request user in the view
         property_obj = Property.objects.create(**validated_data)
         for i, image in enumerate(images_data):
             PropertyImage.objects.create(
                 property=property_obj,
                 image=image,
-                is_primary=(i == 0)  # first image is primary
+                is_primary=(i == 0)
             )
         return property_obj
 

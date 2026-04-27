@@ -1,5 +1,3 @@
-# backend/manage.py
-# !/usr/bin/env python
 import os, sys
 
 

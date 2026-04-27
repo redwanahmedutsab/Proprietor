@@ -1,6 +1,3 @@
-"""
-bookings/models.py — Booking Model
-"""
 from django.db import models
 from django.conf import settings
 

@@ -1,18 +1,3 @@
-"""
-properties/filters.py — Search & Filter Logic
-Uses django-filter for clean, reusable query params.
-
-Available query params:
-  ?property_type=rent
-  ?category=apartment
-  ?city=Dhaka
-  ?area=Gulshan
-  ?min_price=5000
-  ?max_price=50000
-  ?bedrooms=3
-  ?status=approved
-  ?search=gulshan 2 bed
-"""
 import django_filters
 from .models import Property
 
@@ -31,7 +16,6 @@ class PropertyFilter(django_filters.FilterSet):
                   'bedrooms', 'bathrooms', 'is_featured']
 
     def filter_search(self, queryset, name, value):
-        """Full-text search across title, description, address, city, area."""
         from django.db.models import Q
         return queryset.filter(
             Q(title__icontains=value) |

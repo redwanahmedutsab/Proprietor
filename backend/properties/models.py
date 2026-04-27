@@ -1,6 +1,3 @@
-"""
-properties/models.py — Property & PropertyImage Models
-"""
 from django.db import models
 from django.conf import settings
 
@@ -39,24 +36,20 @@ class Property(models.Model):
     category = models.CharField(max_length=20, choices=CATEGORY_CHOICES, default='apartment')
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='pending')
 
-    # Location
     address = models.CharField(max_length=500)
     city = models.CharField(max_length=100)
     area = models.CharField(max_length=100, blank=True)  # e.g. Dhanmondi, Gulshan
     latitude = models.DecimalField(max_digits=9, decimal_places=6, null=True, blank=True)
     longitude = models.DecimalField(max_digits=9, decimal_places=6, null=True, blank=True)
 
-    # Details
     bedrooms = models.PositiveIntegerField(default=0)
     bathrooms = models.PositiveIntegerField(default=0)
     area_sqft = models.PositiveIntegerField(null=True, blank=True)
     floor = models.PositiveIntegerField(null=True, blank=True)
 
-    # 3D Tour / Virtual Tour
     tour_url = models.URLField(blank=True, null=True,
                                help_text="Matterport or YouTube 3D tour link")
 
-    # Meta
     is_featured = models.BooleanField(default=False)
     views_count = models.PositiveIntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -90,7 +83,6 @@ class PropertyImage(models.Model):
         return f"Image for {self.property.title}"
 
     def save(self, *args, **kwargs):
-        # Only one primary image per property
         if self.is_primary:
             PropertyImage.objects.filter(
                 property=self.property, is_primary=True

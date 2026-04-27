@@ -1,4 +1,3 @@
-// src/components/Navbar.jsx
 import {useState} from 'react';
 import {Link, useNavigate, useLocation} from 'react-router-dom';
 import useAuth from '../hooks/useAuth';
@@ -22,12 +21,10 @@ const Navbar = () => {
         <nav className="navbar">
             <div className="nav-inner">
 
-                {/* Logo */}
                 <Link to="/" className="nav-logo">
                     🏘 <span>Proprietor</span>
                 </Link>
 
-                {/* Desktop links */}
                 <div className="nav-links">
                     <Link to="/"
                           className={`nav-link ${isActive('/') ? 'active' : ''}`}>Home</Link>
@@ -37,7 +34,6 @@ const Navbar = () => {
                           className={`nav-link ${isActive('/developers') ? 'active' : ''}`}>Developers</Link>
                 </div>
 
-                {/* Right side */}
                 <div className="nav-right">
                     {isAuthenticated ? (
                         <>
@@ -48,7 +44,6 @@ const Navbar = () => {
                                 + Post Property
                             </button>
 
-                            {/* User dropdown */}
                             <div className="user-menu">
                                 <button
                                     className="user-avatar-btn"
@@ -90,7 +85,6 @@ const Navbar = () => {
                         </>
                     )}
 
-                    {/* Mobile hamburger */}
                     <button
                         className="hamburger"
                         onClick={() => setMenuOpen((p) => !p)}
@@ -100,7 +94,6 @@ const Navbar = () => {
                 </div>
             </div>
 
-            {/* Mobile menu */}
             {menuOpen && (
                 <div className="mobile-menu">
                     <Link to="/" className="mob-link" onClick={() => setMenuOpen(false)}>Home</Link>

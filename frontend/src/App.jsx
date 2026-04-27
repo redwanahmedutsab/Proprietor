@@ -1,4 +1,3 @@
-// src/App.jsx — FINAL VERSION (All 5 Phases)
 import {BrowserRouter as Router, Routes, Route, Navigate} from 'react-router-dom';
 import {AuthProvider} from './context/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
@@ -28,7 +27,6 @@ function App() {
                 <Navbar/>
 
                 <Routes>
-                    {/* ── Public ─────────────────────────── */}
                     <Route path="/" element={<Home/>}/>
                     <Route path="/properties" element={<Properties/>}/>
                     <Route path="/properties/:id" element={<PropertyDetail/>}/>
@@ -36,12 +34,10 @@ function App() {
                     <Route path="/register" element={<Register/>}/>
                     <Route path="/developers" element={<Developers/>}/>
 
-                    {/* ── SSLCommerz redirects back here ── */}
                     <Route path="/payment/success" element={<PaymentResult result="success"/>}/>
                     <Route path="/payment/fail" element={<PaymentResult result="fail"/>}/>
                     <Route path="/payment/cancel" element={<PaymentResult result="cancel"/>}/>
 
-                    {/* ── Protected ──────────────────────── */}
                     <Route element={<ProtectedRoute/>}>
                         <Route path="/dashboard" element={<Dashboard/>}/>
                         <Route path="/post-property" element={<PostProperty/>}/>

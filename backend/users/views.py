@@ -1,6 +1,3 @@
-"""
-users/views.py — Auth API Views
-"""
 from rest_framework import generics, status
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -16,10 +13,6 @@ from .serializers import (
 
 
 class RegisterView(generics.CreateAPIView):
-    """
-    POST /api/auth/register/
-    Open endpoint — creates a new user account.
-    """
     queryset = CustomUser.objects.all()
     serializer_class = RegisterSerializer
     permission_classes = [AllowAny]
@@ -29,7 +22,6 @@ class RegisterView(generics.CreateAPIView):
         serializer.is_valid(raise_exception=True)
         user = serializer.save()
 
-        # Issue tokens immediately after registration
         refresh = RefreshToken.for_user(user)
         return Response(
             {
@@ -45,11 +37,6 @@ class RegisterView(generics.CreateAPIView):
 
 
 class ProfileView(generics.RetrieveUpdateAPIView):
-    """
-    GET  /api/auth/profile/   → fetch own profile
-    PUT  /api/auth/profile/   → update own profile (full)
-    PATCH /api/auth/profile/  → partial update
-    """
     serializer_class = UserProfileSerializer
     permission_classes = [IsAuthenticated]
 
@@ -58,10 +45,6 @@ class ProfileView(generics.RetrieveUpdateAPIView):
 
 
 class ChangePasswordView(APIView):
-    """
-    POST /api/auth/change-password/
-    Requires: old_password, new_password, new_password2
-    """
     permission_classes = [IsAuthenticated]
 
     def post(self, request):
@@ -70,7 +53,6 @@ class ChangePasswordView(APIView):
 
         user = request.user
 
-        # Verify old password
         if not user.check_password(serializer.validated_data['old_password']):
             return Response(
                 {"old_password": "Current password is incorrect."},
@@ -86,10 +68,6 @@ class ChangePasswordView(APIView):
 
 
 class LogoutView(APIView):
-    """
-    POST /api/auth/logout/
-    Blacklists the refresh token — invalidates the session.
-    """
     permission_classes = [IsAuthenticated]
 
     def post(self, request):

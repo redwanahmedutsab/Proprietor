@@ -1,6 +1,3 @@
-"""
-reviews/views.py
-"""
 from rest_framework import generics, status
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
@@ -12,10 +9,6 @@ from properties.models import Property
 
 
 class PropertyReviewsView(generics.ListCreateAPIView):
-    """
-    GET  /api/properties/<id>/reviews/  → list all reviews
-    POST /api/properties/<id>/reviews/  → add a review (auth)
-    """
     serializer_class = ReviewSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
 
@@ -43,7 +36,6 @@ class PropertyReviewsView(generics.ListCreateAPIView):
         serializer.is_valid(raise_exception=True)
         serializer.save(user=request.user, property=prop)
 
-        # Return updated average rating too
         avg = Review.objects.filter(property=prop).aggregate(
             avg=Avg('rating')
         )['avg'] or 0
@@ -55,7 +47,6 @@ class PropertyReviewsView(generics.ListCreateAPIView):
 
 
 class DeleteReviewView(generics.DestroyAPIView):
-    """DELETE /api/reviews/<id>/ — owner only"""
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):

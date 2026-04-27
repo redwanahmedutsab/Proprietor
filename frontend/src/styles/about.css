@@ -1,15 +1,9 @@
-/* src/styles/about.css
-   About Us page styles — add to your styles/ folder
-   Import in App.jsx: import './styles/about.css';
-*/
-
-/* ── Page base ────────────────────────────────────────── */
 .about-page {
     background: #f8fafc;
     min-height: 100vh;
 }
 
-/* ── Scroll animations ────────────────────────────────── */
+
 .fade-up {
     opacity: 0;
     transform: translateY(28px);
@@ -21,7 +15,6 @@
     transform: translateY(0);
 }
 
-/* ── Hero ─────────────────────────────────────────────── */
 .about-hero {
     position: relative;
     background: #0f172a;
@@ -94,7 +87,6 @@
     max-width: 540px;
 }
 
-/* ── Stats ────────────────────────────────────────────── */
 .about-stats {
     padding: 3.5rem 0;
     background: #fff;
@@ -144,7 +136,6 @@
     letter-spacing: .07em;
 }
 
-/* ── Team section ─────────────────────────────────────── */
 .about-team {
     padding: 5rem 0;
 }
@@ -167,7 +158,6 @@
     font-size: .95rem;
 }
 
-/* ── Developer cards ──────────────────────────────────── */
 .dev-cards {
     display: flex;
     flex-direction: column;
@@ -205,7 +195,6 @@
     }
 }
 
-/* Left panel */
 .dev-card-left {
     padding: 2.5rem 2rem;
     border-right: 1px solid #e2e8f0;
@@ -223,7 +212,6 @@
     }
 }
 
-/* Photo */
 .dev-photo-wrap {
     width: 110px;
     height: 110px;
@@ -252,7 +240,6 @@
     letter-spacing: -0.02em;
 }
 
-/* Identity */
 .dev-identity {
     margin-bottom: 1.5rem;
 }
@@ -276,7 +263,6 @@
     font-weight: 500;
 }
 
-/* Social buttons */
 .dev-socials {
     display: flex;
     flex-direction: column;
@@ -306,7 +292,6 @@
     background: color-mix(in srgb, var(--hover, #1a56db) 8%, white);
 }
 
-/* Right panel */
 .dev-card-right {
     padding: 2.5rem;
 }
@@ -331,7 +316,6 @@
     font-size: .92rem;
 }
 
-/* Skills */
 .dev-skills {
     display: flex;
     flex-wrap: wrap;
@@ -346,7 +330,6 @@
     border: 1px solid;
 }
 
-/* ── Story section ────────────────────────────────────── */
 .about-story {
     padding: 0 0 5rem;
 }

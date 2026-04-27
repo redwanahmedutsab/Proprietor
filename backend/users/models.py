@@ -1,17 +1,8 @@
-"""
-users/models.py — Custom User Model
-Extends Django's AbstractUser with phone + address fields.
-"""
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
 
 class CustomUser(AbstractUser):
-    """
-    Extended user model for the Real Estate Platform.
-    Adds phone number (Bangladesh format) and address.
-    """
-
     ROLE_CHOICES = (
         ('buyer', 'Buyer'),
         ('seller', 'Seller'),
@@ -29,7 +20,6 @@ class CustomUser(AbstractUser):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    # Use email as the login field
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username', 'first_name', 'last_name']
 

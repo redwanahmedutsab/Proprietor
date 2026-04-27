@@ -1,6 +1,3 @@
-"""
-bookings/views.py
-"""
 from rest_framework import generics, status
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -11,10 +8,6 @@ from .serializers import BookingCreateSerializer, BookingDetailSerializer
 
 
 class BookingCreateView(generics.CreateAPIView):
-    """
-    POST /api/bookings/
-    Create a new booking. User + price set automatically.
-    """
     serializer_class = BookingCreateSerializer
     permission_classes = [IsAuthenticated]
 
@@ -30,10 +23,6 @@ class BookingCreateView(generics.CreateAPIView):
 
 
 class MyBookingsView(generics.ListAPIView):
-    """
-    GET /api/bookings/mine/
-    All bookings made by the logged-in user.
-    """
     serializer_class = BookingDetailSerializer
     permission_classes = [IsAuthenticated]
 
@@ -44,9 +33,6 @@ class MyBookingsView(generics.ListAPIView):
 
 
 class BookingDetailView(generics.RetrieveAPIView):
-    """
-    GET /api/bookings/<id>/
-    """
     serializer_class = BookingDetailSerializer
     permission_classes = [IsAuthenticated]
 
@@ -55,10 +41,6 @@ class BookingDetailView(generics.RetrieveAPIView):
 
 
 class CancelBookingView(APIView):
-    """
-    POST /api/bookings/<id>/cancel/
-    Cancel a pending booking.
-    """
     permission_classes = [IsAuthenticated]
 
     def post(self, request, pk):

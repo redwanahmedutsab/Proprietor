@@ -1,6 +1,3 @@
-"""
-payments/models.py — Payment Model
-"""
 from django.db import models
 
 
@@ -20,16 +17,14 @@ class Payment(models.Model):
         related_name='payment'
     )
 
-    # SSLCommerz fields
-    tran_id = models.CharField(max_length=100, unique=True)  # our generated ID
-    val_id = models.CharField(max_length=100, blank=True)  # SSLCommerz val_id after success
-    session_key = models.CharField(max_length=200, blank=True)  # SSLCommerz session
+    tran_id = models.CharField(max_length=100, unique=True)
+    val_id = models.CharField(max_length=100, blank=True)
+    session_key = models.CharField(max_length=200, blank=True)
 
     amount = models.DecimalField(max_digits=12, decimal_places=2)
     currency = models.CharField(max_length=5, default='BDT')
     status = models.CharField(max_length=15, choices=STATUS_CHOICES, default='initiated')
 
-    # Raw response from SSLCommerz (stored for auditing)
     gateway_response = models.JSONField(null=True, blank=True)
 
     is_verified = models.BooleanField(default=False)

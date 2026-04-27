@@ -1,6 +1,3 @@
-"""
-properties/views.py — All Property API Views
-"""
 from rest_framework import generics, status, filters
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -19,9 +16,7 @@ from .serializers import (
 from .filters import PropertyFilter
 
 
-# ── Helper permission ──────────────────────────────────────
 class IsOwnerOrAdmin:
-    """Mixin: only the property owner or admin can edit/delete."""
 
     def get_object(self):
         obj = super().get_object()
@@ -32,12 +27,7 @@ class IsOwnerOrAdmin:
         return obj
 
 
-# ── Property List & Create ─────────────────────────────────
 class PropertyListCreateView(generics.ListCreateAPIView):
-    """
-    GET  /api/properties/          → public list (approved only)
-    POST /api/properties/          → create new (auth required)
-    """
     permission_classes = [IsAuthenticatedOrReadOnly]
     parser_classes = [MultiPartParser, FormParser, JSONParser]
     filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
@@ -46,7 +36,6 @@ class PropertyListCreateView(generics.ListCreateAPIView):
     ordering = ['-created_at']
 
     def get_queryset(self):
-        # Public sees only approved; owner sees all their own
         user = self.request.user
         if user.is_authenticated:
             from django.db.models import Q
@@ -65,14 +54,7 @@ class PropertyListCreateView(generics.ListCreateAPIView):
         serializer.save(owner=self.request.user)
 
 
-# ── Property Detail, Update, Delete ───────────────────────
 class PropertyDetailView(IsOwnerOrAdmin, generics.RetrieveUpdateDestroyAPIView):
-    """
-    GET    /api/properties/<id>/   → public detail
-    PUT    /api/properties/<id>/   → owner/admin update
-    PATCH  /api/properties/<id>/   → partial update
-    DELETE /api/properties/<id>/   → owner/admin delete
-    """
     queryset = Property.objects.all().select_related('owner').prefetch_related('images')
     permission_classes = [IsAuthenticatedOrReadOnly]
     parser_classes = [MultiPartParser, FormParser, JSONParser]
@@ -84,7 +66,6 @@ class PropertyDetailView(IsOwnerOrAdmin, generics.RetrieveUpdateDestroyAPIView):
 
     def retrieve(self, request, *args, **kwargs):
         instance = self.get_object()
-        # Increment view counter
         Property.objects.filter(pk=instance.pk).update(
             views_count=instance.views_count + 1
         )
@@ -92,11 +73,7 @@ class PropertyDetailView(IsOwnerOrAdmin, generics.RetrieveUpdateDestroyAPIView):
         return Response(serializer.data)
 
 
-# ── My Properties (dashboard) ─────────────────────────────
 class MyPropertiesView(generics.ListAPIView):
-    """
-    GET /api/properties/mine/  → all properties by logged-in user
-    """
     serializer_class = PropertyListSerializer
     permission_classes = [IsAuthenticated]
 
@@ -106,12 +83,7 @@ class MyPropertiesView(generics.ListAPIView):
         ).prefetch_related('images').order_by('-created_at')
 
 
-# ── Property Image Upload ──────────────────────────────────
 class PropertyImageUploadView(generics.CreateAPIView):
-    """
-    POST /api/properties/<id>/images/
-    Upload additional images to an existing property.
-    """
     serializer_class = PropertyImageSerializer
     permission_classes = [IsAuthenticated]
     parser_classes = [MultiPartParser, FormParser]
@@ -127,33 +99,20 @@ class PropertyImageUploadView(generics.CreateAPIView):
 
 
 class PropertyImageDeleteView(generics.DestroyAPIView):
-    """
-    DELETE /api/properties/images/<image_id>/
-    """
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
         return PropertyImage.objects.filter(property__owner=self.request.user)
 
 
-# ── Featured Properties ────────────────────────────────────
 class FeaturedPropertiesView(generics.ListAPIView):
-    """
-    GET /api/properties/featured/
-    """
     serializer_class = PropertyListSerializer
     queryset = Property.objects.filter(
         status='approved', is_featured=True
     ).prefetch_related('images').order_by('-created_at')[:8]
 
 
-# ── Admin Approval ─────────────────────────────────────────
 class ApprovePropertyView(APIView):
-    """
-    POST /api/properties/<id>/approve/
-    POST /api/properties/<id>/reject/
-    Admin only.
-    """
     permission_classes = [IsAdminUser]
 
     def post(self, request, pk, action):
@@ -174,9 +133,7 @@ class ApprovePropertyView(APIView):
         return Response({'error': 'Invalid action.'}, status=status.HTTP_400_BAD_REQUEST)
 
 
-# ── Wishlist ───────────────────────────────────────────────
 class WishlistView(generics.ListAPIView):
-    """GET /api/properties/wishlist/ → user's saved properties"""
     serializer_class = WishlistSerializer
     permission_classes = [IsAuthenticated]
 
@@ -187,10 +144,6 @@ class WishlistView(generics.ListAPIView):
 
 
 class WishlistToggleView(APIView):
-    """
-    POST /api/properties/<id>/wishlist/
-    Add if not saved, remove if already saved.
-    """
     permission_classes = [IsAuthenticated]
 
     def post(self, request, pk):

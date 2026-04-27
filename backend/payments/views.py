@@ -1,18 +1,3 @@
-"""
-payments/views.py — Payment Flow Views
-
-Flow:
-  1. POST /api/payments/initiate/<booking_id>/
-     → Creates Payment record, calls SSLCommerz, returns redirect URL
-
-  2. SSLCommerz redirects user to success/fail/cancel URLs
-     → POST /api/payments/success/  (IPN from SSLCommerz)
-     → POST /api/payments/fail/
-     → POST /api/payments/cancel/
-
-  3. Frontend polls GET /api/payments/status/<booking_id>/
-     → Returns { is_paid, status }
-"""
 import uuid
 import logging
 
@@ -32,11 +17,6 @@ logger = logging.getLogger(__name__)
 
 
 class InitiatePaymentView(APIView):
-    """
-    POST /api/payments/initiate/<booking_id>/
-    Initiates an SSLCommerz payment session for a booking.
-    Returns { payment_url } to redirect the user.
-    """
     permission_classes = [IsAuthenticated]
 
     def post(self, request, booking_id):
@@ -48,10 +28,8 @@ class InitiatePaymentView(APIView):
         if booking.status == 'confirmed':
             return Response({'error': 'This booking is already paid.'}, status=400)
 
-        # Generate a unique transaction ID
         tran_id = f"BDPROP-{booking.id}-{uuid.uuid4().hex[:8].upper()}"
 
-        # Build callback URLs — frontend listens on these
         base = request.build_absolute_uri('/').rstrip('/')
         success_url = f"{base}/api/payments/success/"
         fail_url = f"{base}/api/payments/fail/"
@@ -67,7 +45,6 @@ class InitiatePaymentView(APIView):
             'cancel_url': cancel_url,
             'product_name': f"Property: {booking.property.title}",
 
-            # Customer info
             'cus_name': user.get_full_name() or user.username,
             'cus_email': user.email,
             'cus_phone': user.phone or '01700000000',
@@ -83,7 +60,6 @@ class InitiatePaymentView(APIView):
         except ValueError as e:
             return Response({'error': str(e)}, status=status.HTTP_502_BAD_GATEWAY)
 
-        # Save payment record
         Payment.objects.update_or_create(
             booking=booking,
             defaults={
@@ -103,11 +79,6 @@ class InitiatePaymentView(APIView):
 
 @method_decorator(csrf_exempt, name='dispatch')
 class PaymentSuccessView(APIView):
-    """
-    POST /api/payments/success/
-    SSLCommerz IPN — called by the gateway after successful payment.
-    Verifies transaction server-side then marks booking as confirmed.
-    """
     permission_classes = [AllowAny]
 
     def post(self, request):
@@ -126,7 +97,6 @@ class PaymentSuccessView(APIView):
             logger.error(f"Payment not found for tran_id {tran_id}")
             return self._redirect_frontend('fail')
 
-        # ── Server-side verification ────────────────────────
         try:
             gateway = SSLCommerzGateway()
             verify_resp = gateway.verify_transaction(val_id, amount)
@@ -141,7 +111,6 @@ class PaymentSuccessView(APIView):
             payment.save()
             return self._redirect_frontend('fail')
 
-        # ── Mark payment and booking as confirmed ───────────
         payment.val_id = val_id
         payment.status = 'verified'
         payment.is_verified = True
@@ -193,10 +162,6 @@ class PaymentCancelView(APIView):
 
 
 class PaymentStatusView(APIView):
-    """
-    GET /api/payments/status/<booking_id>/
-    Frontend polls this to check payment result.
-    """
     permission_classes = [IsAuthenticated]
 
     def get(self, request, booking_id):

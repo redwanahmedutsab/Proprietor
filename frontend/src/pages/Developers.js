@@ -1,6 +1,3 @@
-// src/pages/AboutUs.jsx
-// About Us page — replace placeholder content with real developer info
-
 import {useEffect, useRef} from 'react';
 import '../styles/about.css';
 
@@ -47,7 +44,6 @@ const AboutUs = () => {
     const cardsRef = useRef([]);
 
     useEffect(() => {
-        // Intersection observer for scroll animations
         const observer = new IntersectionObserver(
             (entries) => {
                 entries.forEach((entry) => {
@@ -65,8 +61,6 @@ const AboutUs = () => {
 
     return (
         <div className="about-page">
-
-            {/* ── Hero ──────────────────────────────────────── */}
             <section className="about-hero" ref={heroRef}>
                 <div className="about-hero-bg">
                     <div className="hero-grid-pattern"/>
@@ -87,7 +81,6 @@ const AboutUs = () => {
                 </div>
             </section>
 
-            {/* ── Stats ─────────────────────────────────────── */}
             <section className="about-stats">
                 <div className="container">
                     <div className="about-stats-grid">
@@ -106,7 +99,6 @@ const AboutUs = () => {
                 </div>
             </section>
 
-            {/* ── Developer Cards ───────────────────────────── */}
             <section className="about-team">
                 <div className="container">
                     <div className="about-section-header">
@@ -124,7 +116,7 @@ const AboutUs = () => {
                                 ref={(el) => (cardsRef.current[4 + i] = el)}
                                 style={{animationDelay: `${i * 0.15}s`}}
                             >
-                                {/* Accent top bar */}
+
                                 <div
                                     className="dev-card-bar"
                                     style={{background: dev.accent}}
@@ -132,7 +124,6 @@ const AboutUs = () => {
 
                                 <div className="dev-card-inner">
 
-                                    {/* Left: Photo + name */}
                                     <div className="dev-card-left">
                                         <div
                                             className="dev-photo-wrap"
@@ -165,7 +156,6 @@ const AboutUs = () => {
                                             <div className="dev-role">{dev.role}</div>
                                         </div>
 
-                                        {/* Social links */}
                                         <div className="dev-socials">
                                             <a
                                                 href={dev.github}
@@ -209,7 +199,6 @@ const AboutUs = () => {
                                         </div>
                                     </div>
 
-                                    {/* Right: Bio + skills */}
                                     <div className="dev-card-right">
                                         <div className="dev-bio-label">About</div>
                                         <p className="dev-bio">{dev.bio}</p>
@@ -239,7 +228,6 @@ const AboutUs = () => {
                 </div>
             </section>
 
-            {/* ── Project story ─────────────────────────────── */}
             <section className="about-story">
                 <div className="container">
                     <div
