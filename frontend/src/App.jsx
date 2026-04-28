@@ -3,6 +3,7 @@ import {AuthProvider} from './context/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
+import WakeUpToast from './components/WakeUpToast';   // ← new
 
 import Home from './pages/Home';
 import Properties from './pages/Properties';
@@ -25,6 +26,9 @@ function App() {
         <AuthProvider>
             <Router>
                 <Navbar/>
+
+                {/* Render free-tier wake-up notification — mounts once, self-dismisses */}
+                <WakeUpToast />
 
                 <Routes>
                     <Route path="/" element={<Home/>}/>

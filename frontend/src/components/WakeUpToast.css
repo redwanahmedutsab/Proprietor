@@ -1,0 +1,139 @@
+/* ============================================================
+   WakeUpToast — Render free-tier wake-up notification
+   Place this file at: src/components/WakeUpToast.css
+   ============================================================ */
+
+.wakeup-toast {
+    position: fixed;
+    bottom: 1.5rem;
+    right: 1.5rem;
+    z-index: 9999;
+
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+
+    max-width: 380px;
+    padding: 1rem 1.25rem;
+    border-radius: 12px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.18);
+
+    font-family: inherit;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    color: #1a1a2e;
+
+    animation: toast-slide-in 0.35s cubic-bezier(0.22, 1, 0.36, 1) both;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* Slide in from bottom-right */
+@keyframes toast-slide-in {
+    from { opacity: 0; transform: translateY(24px) scale(0.96); }
+    to   { opacity: 1; transform: translateY(0)    scale(1);    }
+}
+
+/* ---- State colours ---- */
+.wakeup-toast--checking {
+    background: #f0f4ff;
+    border-left: 4px solid #7c9ef5;
+}
+
+.wakeup-toast--sleeping {
+    background: #fffbf0;
+    border-left: 4px solid #f5a623;
+}
+
+.wakeup-toast--awake {
+    background: #f0fff6;
+    border-left: 4px solid #34c975;
+}
+
+/* ---- Icon ---- */
+.wakeup-toast__icon {
+    font-size: 1.5rem;
+    flex-shrink: 0;
+    line-height: 1;
+    margin-top: 0.1rem;
+}
+
+/* ---- Body ---- */
+.wakeup-toast__body {
+    flex: 1;
+}
+
+.wakeup-toast__body strong {
+    display: block;
+    font-size: 0.95rem;
+    font-weight: 700;
+    margin-bottom: 0.3rem;
+    color: #111;
+}
+
+.wakeup-toast__body p {
+    margin: 0;
+    color: #444;
+}
+
+.wakeup-toast__body em {
+    font-style: normal;
+    font-weight: 600;
+    color: #f5a623;
+}
+
+/* ---- Dismiss button ---- */
+.wakeup-toast__close {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0 0.25rem;
+    font-size: 0.85rem;
+    color: #888;
+    flex-shrink: 0;
+    line-height: 1;
+    margin-top: 0.1rem;
+    transition: color 0.15s;
+}
+
+.wakeup-toast__close:hover { color: #333; }
+
+/* ---- Loading spinner (three bouncing dots) ---- */
+.wakeup-toast__spinner {
+    display: flex;
+    gap: 5px;
+    margin-top: 0.6rem;
+}
+
+.wakeup-toast__spinner span {
+    display: inline-block;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #f5a623;
+    animation: dot-bounce 1.2s infinite ease-in-out;
+}
+
+.wakeup-toast__spinner span:nth-child(2) { animation-delay: 0.2s; }
+.wakeup-toast__spinner span:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes dot-bounce {
+    0%, 80%, 100% { transform: scale(0.6); opacity: 0.5; }
+    40%            { transform: scale(1);   opacity: 1;   }
+}
+
+/* ---- Mobile ---- */
+@media (max-width: 480px) {
+    .wakeup-toast {
+        bottom: 0;
+        right: 0;
+        left: 0;
+        max-width: 100%;
+        border-radius: 12px 12px 0 0;
+        border-left: none;
+        border-top: 4px solid;
+    }
+
+    .wakeup-toast--sleeping { border-top-color: #f5a623; }
+    .wakeup-toast--awake    { border-top-color: #34c975; }
+    .wakeup-toast--checking { border-top-color: #7c9ef5; }
+}
