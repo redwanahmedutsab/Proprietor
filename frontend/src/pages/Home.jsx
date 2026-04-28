@@ -3,6 +3,100 @@ import {useNavigate} from 'react-router-dom';
 import {getFeatured} from '../api/propertyAPI';
 import PropertyCard from '../components/PropertyCard';
 
+const RenderToast = () => {
+    // null = initial check in progress, true = server down, false = server up
+    const [serverDown, setServerDown] = useState(null);
+    const [justRecovered, setJustRecovered] = useState(false);
+    const [dismissed, setDismissed] = useState(false);
+
+    useEffect(() => {
+        const BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:8000/api';
+
+        const checkServer = async () => {
+            try {
+                const res = await fetch(`${BASE_URL}/properties/featured/`, {
+                    method: 'GET',
+                    signal: AbortSignal.timeout(5000),
+                });
+                // Any real HTTP response (even 401/403) means the server is alive
+                if (res.status < 500) {
+                    setServerDown(prev => {
+                        if (prev === true) setJustRecovered(true);
+                        return false;
+                    });
+                } else {
+                    setServerDown(true);
+                }
+            } catch {
+                setServerDown(true);
+            }
+        };
+
+        checkServer();
+        const interval = setInterval(checkServer, 5000);
+        return () => clearInterval(interval);
+    }, []);
+
+    // Auto-hide the "server is ready" success banner after 3 seconds
+    useEffect(() => {
+        if (justRecovered) {
+            const t = setTimeout(() => setJustRecovered(false), 3000);
+            return () => clearTimeout(t);
+        }
+    }, [justRecovered]);
+
+    if (serverDown === null) return null;
+    if (serverDown === false && !justRecovered) return null;
+    if (dismissed) return null;
+
+    const isUp = !serverDown && justRecovered;
+
+    return (
+        <div className="render-toast-overlay">
+            <div className={`render-toast ${isUp ? 'render-toast--up' : ''}`}>
+                <div className="render-toast-icon">
+                    {isUp ? (
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+                            <circle cx="12" cy="12" r="10" stroke="#057a55" strokeWidth="2"/>
+                            <path d="M8 12l3 3 5-5" stroke="#057a55" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                        </svg>
+                    ) : (
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+                            <circle cx="12" cy="12" r="10" stroke="#f59e0b" strokeWidth="2"/>
+                            <path d="M12 7v5l3 3" stroke="#f59e0b" strokeWidth="2" strokeLinecap="round"/>
+                        </svg>
+                    )}
+                </div>
+                <div className="render-toast-body">
+                    {isUp ? (
+                        <>
+                            <div className="render-toast-title render-toast-title--up">Backend is ready!</div>
+                            <div className="render-toast-msg render-toast-msg--up">
+                                The server has started. You can now <strong>login</strong> and <strong>sign up</strong> normally.
+                            </div>
+                        </>
+                    ) : (
+                        <>
+                            <div className="render-toast-title">Backend is waking up…</div>
+                            <div className="render-toast-msg">
+                                This app is hosted on <strong>Render's free tier</strong>, which spins down after inactivity.
+                                Please wait — checking every 5 seconds until the server is ready.
+                            </div>
+                            <div className="render-toast-pulse-row">
+                                <span className="render-toast-pulse"/>
+                                <span className="render-toast-pulse-label">Connecting to server…</span>
+                            </div>
+                        </>
+                    )}
+                </div>
+                <button className="render-toast-close" onClick={() => setDismissed(true)} aria-label="Dismiss">
+                    ×
+                </button>
+            </div>
+        </div>
+    );
+};
+
 const Home = () => {
     const navigate = useNavigate();
     const [featured, setFeatured] = useState([]);
@@ -43,6 +137,7 @@ const Home = () => {
 
     return (
         <div className="home">
+            <RenderToast/>
 
             <section className="hero">
                 <div className="hero-bg"/>

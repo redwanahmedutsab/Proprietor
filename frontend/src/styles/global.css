@@ -1635,3 +1635,133 @@ textarea {
     text-align: center;
     padding: 2rem;
 }
+
+/* ── Render Wake-Up Toast ─────────────────────────────────── */
+.render-toast-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    pointer-events: none;
+}
+
+.render-toast {
+    pointer-events: all;
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    background: #ffffff;
+    border: 1px solid #fde68a;
+    border-left: 4px solid #f59e0b;
+    border-radius: 12px;
+    padding: 1.25rem 1.25rem 1rem 1.25rem;
+    max-width: 460px;
+    width: calc(100% - 2rem);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15), 0 4px 12px rgba(0, 0, 0, 0.08);
+    animation: toastSlideIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    transition: border-color 0.3s, background 0.3s;
+}
+
+.render-toast--up {
+    border-color: #a7f3d0;
+    border-left-color: #057a55;
+    background: #f0fdf4;
+}
+
+@keyframes toastSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.render-toast-icon {
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.render-toast-body {
+    flex: 1;
+    min-width: 0;
+}
+
+.render-toast-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #92400e;
+    margin-bottom: 0.35rem;
+}
+
+.render-toast-title--up {
+    color: #065f46;
+}
+
+.render-toast-msg {
+    font-size: 0.85rem;
+    color: #78350f;
+    line-height: 1.55;
+}
+
+.render-toast-msg--up {
+    color: #065f46;
+}
+
+.render-toast-msg strong {
+    color: inherit;
+}
+
+/* Animated pulse row shown while server is down */
+.render-toast-pulse-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 0.75rem;
+}
+
+.render-toast-pulse {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #f59e0b;
+    animation: toastPulse 1.2s ease-in-out infinite;
+    flex-shrink: 0;
+}
+
+@keyframes toastPulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(0.7); }
+}
+
+.render-toast-pulse-label {
+    font-size: 0.8rem;
+    color: #b45309;
+    font-style: italic;
+}
+
+.render-toast-close {
+    flex-shrink: 0;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.4rem;
+    line-height: 1;
+    color: #d97706;
+    padding: 0;
+    margin-top: -2px;
+    opacity: 0.7;
+    transition: opacity 0.15s;
+}
+
+.render-toast-close:hover {
+    opacity: 1;
+}
