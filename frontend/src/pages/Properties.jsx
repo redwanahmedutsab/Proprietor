@@ -13,6 +13,7 @@ const Properties = () => {
         const params = {};
         for (const [k, v] of searchParams.entries()) params[k] = v;
         if (Object.keys(params).length) applyFilters(params);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (
