@@ -5,7 +5,7 @@ const developers = [
     {
         id: 1,
         name: 'Redwan Ahmed Utsab',
-        photo: "https://scontent.fdac110-1.fna.fbcdn.net/v/t39.30808-6/468282334_2403063893384071_4167278019168442776_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=1d70fc&_nc_eui2=AeFEWAuryVVFu8bOfrHEZXMuomNmIIZ5bpCiY2YghnlukNWU4t70WOVloDq-gr80ne7SvJTAvUWUDgVl3Y5CL7-g&_nc_ohc=rnfre8qDDDQQ7kNvwGN6UAL&_nc_oc=AdqiDJwoNnf9X_iLVguclEmMvC-ESjVvxH6WDOPKIvZZgqlfLhxOTtmOIX86P318LnU&_nc_zt=23&_nc_ht=scontent.fdac110-1.fna&_nc_gid=jRSOyS4AtBlildFBsX0uxQ&_nc_ss=7a3a8&oh=00_Af3KSSnnF3DKKMAyF6FpHz4t7aWWyJlvcnpGt_lBa7QOxg&oe=69D41B52",                                    // ← Replace with photo URL or import
+        photo: "https://github.com/redwanahmedutsab/Proprietor/tree/main/frontend/public/images/redwan_linkedin_photo.png",                                    // ← Replace with photo URL or import
         initials: 'rau',
         designation: 'Full Stack Developer',
         role: 'Backend & Architecture',
@@ -19,7 +19,7 @@ const developers = [
     {
         id: 2,
         name: 'Bushra Jannat',
-        photo: "https://scontent.fdac110-1.fna.fbcdn.net/v/t39.30808-6/658774587_1349167750575841_1809372538772107113_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=1d70fc&_nc_eui2=AeHormGZVYf719yq8d2k_dX20Wni8N5ne_DRaeLw3md78CsO5JjtuCx5tlBSINoTT2tG-2smyTI5fSKn3jBqYo4c&_nc_ohc=W2xLWBmVSSwQ7kNvwGbVl9q&_nc_oc=AdqsVzmVNhTEe4p_f3BEkDiePXsy9kUwnr0RIISRNwVDmq6BmRbekvys076QeXJrXCI&_nc_zt=23&_nc_ht=scontent.fdac110-1.fna&_nc_gid=oyYtFjmDjq0m-76CXIBmUw&_nc_ss=7a3a8&oh=00_Af1peSaD3cD7cMq93YFNloeFS54x2DcNDVyghMfcT_BoWA&oe=69D40B4F",                                    // ← Replace with photo URL or import
+        photo: "https://github.com/redwanahmedutsab/Proprietor/tree/main/frontend/public/images/bushra_linkedin_photo.png",                                    // ← Replace with photo URL or import
         initials: 'bj',
         designation: 'Frontend Developer',
         role: 'UI/UX & React',
