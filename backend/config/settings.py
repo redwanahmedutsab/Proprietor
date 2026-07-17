@@ -118,16 +118,10 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
-if DEBUG:
-    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-else:
-    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-    EMAIL_HOST = 'smtp.gmail.com'
-    EMAIL_PORT = 587
-    EMAIL_USE_TLS = True
-    EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER', '')
-    EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD', '')
-DEFAULT_FROM_EMAIL = f"Proprietor <{os.getenv('EMAIL_HOST_USER', 'noreply@proprietor.com')}>"
+# Note: transactional emails (OTP, welcome, booking, etc.) are sent via the
+# Resend HTTP API in backend/utils/emails.py, not Django's SMTP backend.
+# This avoids Render's free-tier block on outbound SMTP ports (25/465/587).
+# See RESEND_API_KEY / RESEND_FROM_EMAIL env vars.
 
 SSLCOMMERZ_STORE_ID = os.getenv('SSLCOMMERZ_STORE_ID', 'testbox')
 SSLCOMMERZ_STORE_PASS = os.getenv('SSLCOMMERZ_STORE_PASS', 'qwerty')

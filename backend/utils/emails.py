@@ -1,25 +1,46 @@
-from django.core.mail import send_mail
-from django.conf import settings
+import os
+import requests
 import logging
 
 logger = logging.getLogger(__name__)
 
 SITE_NAME = "BDProperty"
-FROM_EMAIL = settings.DEFAULT_FROM_EMAIL
+
+RESEND_API_KEY = os.getenv("RESEND_API_KEY", "")
+# Use Resend's shared sending domain until you verify your own domain in
+# the Resend dashboard. Once verified, set RESEND_FROM_EMAIL to something
+# like "BDProperty <noreply@yourdomain.com>".
+RESEND_FROM_EMAIL = os.getenv("RESEND_FROM_EMAIL", "BDProperty <onboarding@resend.dev>")
 
 
 def _send(subject, message, recipient):
+    if not RESEND_API_KEY:
+        logger.error("RESEND_API_KEY is not set — cannot send email to %s", recipient)
+        return
+
     try:
-        send_mail(
-            subject=f"[{SITE_NAME}] {subject}",
-            message=message,
-            from_email=FROM_EMAIL,
-            recipient_list=[recipient],
-            fail_silently=False,
+        response = requests.post(
+            "https://api.resend.com/emails",
+            headers={
+                "Authorization": f"Bearer {RESEND_API_KEY}",
+                "Content-Type": "application/json",
+            },
+            json={
+                "from": RESEND_FROM_EMAIL,
+                "to": [recipient],
+                "subject": f"[{SITE_NAME}] {subject}",
+                "text": message,
+            },
+            timeout=10,
         )
-        logger.info(f"Email sent to {recipient}: {subject}")
-    except Exception as e:
-        logger.error(f"Email failed to {recipient}: {e}")
+        if response.status_code >= 400:
+            logger.error(
+                "Email failed to %s: %s %s", recipient, response.status_code, response.text
+            )
+        else:
+            logger.info("Email sent to %s: %s", recipient, subject)
+    except requests.RequestException as e:
+        logger.error("Email failed to %s: %s", recipient, e)
 
 
 def send_otp_email(email, code):
