@@ -5,7 +5,7 @@ const developers = [
     {
         id: 1,
         name: 'Redwan Ahmed Utsab',
-        photo: "https://github.com/redwanahmedutsab/Proprietor/tree/main/frontend/public/images/redwan_linkedin_photo.png",                                    // ← Replace with photo URL or import
+        photo: "https://github.com/redwanahmedutsab/Proprietor/blob/main/frontend/public/image/redwan_linkedin_photo.PNG",
         initials: 'rau',
         designation: 'Full Stack Developer',
         role: 'Backend & Architecture',
@@ -19,7 +19,7 @@ const developers = [
     {
         id: 2,
         name: 'Bushra Jannat',
-        photo: "https://github.com/redwanahmedutsab/Proprietor/tree/main/frontend/public/images/bushra_linkedin_photo.png",                                    // ← Replace with photo URL or import
+        photo: "https://github.com/redwanahmedutsab/Proprietor/blob/main/frontend/public/image/bushra_linkedin_photo.PNG",
         initials: 'bj',
         designation: 'Frontend Developer',
         role: 'UI/UX & React',
