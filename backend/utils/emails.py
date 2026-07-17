@@ -4,13 +4,13 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-SITE_NAME = "BDProperty"
+SITE_NAME = "Proprietor"
 
 RESEND_API_KEY = os.getenv("RESEND_API_KEY", "")
 # Use Resend's shared sending domain until you verify your own domain in
 # the Resend dashboard. Once verified, set RESEND_FROM_EMAIL to something
-# like "BDProperty <noreply@yourdomain.com>".
-RESEND_FROM_EMAIL = os.getenv("RESEND_FROM_EMAIL", "BDProperty <onboarding@resend.dev>")
+# like "Proprietor <noreply@yourdomain.com>".
+RESEND_FROM_EMAIL = os.getenv("RESEND_FROM_EMAIL", "Proprietor <onboarding@resend.dev>")
 
 
 def _send(subject, message, recipient):
@@ -59,7 +59,7 @@ def send_otp_email(email, code):
 
 def send_welcome_email(user):
     _send(
-        subject="Welcome to BDProperty!",
+        subject="Welcome to Proprietor!",
         message=(
             f"Hi {user.first_name},\n\n"
             f"Welcome to {SITE_NAME} — Bangladesh's real estate platform.\n\n"
