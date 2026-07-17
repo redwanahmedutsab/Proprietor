@@ -97,6 +97,42 @@
 
 .wakeup-toast__close:hover { color: #333; }
 
+/* ---- Per-service status list ---- */
+.wakeup-toast__services {
+    list-style: none;
+    margin: 0.6rem 0 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+
+.wakeup-toast__services li {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-size: 0.82rem;
+    color: #444;
+}
+
+.wakeup-toast__dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    background: #D6871B;
+    transition: background 0.2s ease;
+}
+
+.wakeup-toast__services li.is-up {
+    color: #0E9F6E;
+    font-weight: 600;
+}
+
+.wakeup-toast__services li.is-up .wakeup-toast__dot {
+    background: #0E9F6E;
+}
+
 /* ---- Loading spinner (three bouncing dots) ---- */
 .wakeup-toast__spinner {
     display: flex;
