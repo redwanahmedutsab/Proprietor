@@ -14,7 +14,7 @@ const developers = [
         github: 'https://github.com/redwanahmedutsab',
         linkedin: 'https://linkedin.com/in/redwanahmedutsab',
         email: 'redwanutsab@gmail.com',
-        accent: '#1a56db',
+        accent: '#263566',
     },
     {
         id: 2,
@@ -28,7 +28,7 @@ const developers = [
         github: 'https://github.com/jannatjenniebushra',
         linkedin: 'https://linkedin.com/in/jannatjenniebushra',
         email: 'jannatjenniebushra@gmail.com',
-        accent: '#057a55',
+        accent: '#12896F',
     },
 ];
 

@@ -22,6 +22,20 @@ def _send(subject, message, recipient):
         logger.error(f"Email failed to {recipient}: {e}")
 
 
+def send_otp_email(email, code):
+    _send(
+        subject="Your Verification Code",
+        message=(
+            f"Hi,\n\n"
+            f"Your {SITE_NAME} verification code is: {code}\n\n"
+            f"This code expires in 10 minutes. If you didn't request this, "
+            f"you can safely ignore this email.\n\n"
+            f"— The {SITE_NAME} Team"
+        ),
+        recipient=email,
+    )
+
+
 def send_welcome_email(user):
     _send(
         subject="Welcome to BDProperty!",

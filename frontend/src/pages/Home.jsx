@@ -2,6 +2,8 @@ import {useState, useEffect} from 'react';
 import {useNavigate} from 'react-router-dom';
 import {getFeatured} from '../api/propertyAPI';
 import PropertyCard from '../components/PropertyCard';
+import CountUp from '../components/CountUp';
+import useInView from '../hooks/useInView';
 
 const RenderToast = () => {
     // null = initial check in progress, true = server down, false = server up
@@ -97,12 +99,73 @@ const RenderToast = () => {
     );
 };
 
+// Signature element: a low-rise Dhaka skyline silhouette with amber
+// "lit window" rectangles that twinkle at random, anchoring the hero
+// to the idea that a home is a lit window somewhere in the city.
+const HeroSkyline = () => {
+    // Deterministic pseudo-random so markup is stable across renders.
+    const seeded = (i) => ((i * 9301 + 49297) % 233280) / 233280;
+
+    const buildings = [
+        {x: 0, w: 70, h: 90}, {x: 68, w: 46, h: 130}, {x: 112, w: 60, h: 70},
+        {x: 170, w: 40, h: 150}, {x: 208, w: 80, h: 100}, {x: 286, w: 50, h: 175},
+        {x: 334, w: 66, h: 85}, {x: 398, w: 44, h: 140}, {x: 440, w: 90, h: 110},
+        {x: 528, w: 56, h: 160}, {x: 582, w: 70, h: 90}, {x: 650, w: 48, h: 130},
+        {x: 696, w: 64, h: 75}, {x: 758, w: 40, h: 150}, {x: 796, w: 84, h: 100},
+        {x: 878, w: 50, h: 175}, {x: 926, w: 66, h: 85}, {x: 990, w: 44, h: 140},
+        {x: 1032, w: 90, h: 110}, {x: 1120, w: 56, h: 160}, {x: 1174, w: 66, h: 90},
+    ];
+
+    let windowIndex = 0;
+
+    return (
+        <div className="hero-skyline" aria-hidden="true">
+            <svg viewBox="0 0 1240 200" preserveAspectRatio="none">
+                {buildings.map((b, bi) => {
+                    const cols = Math.max(2, Math.floor(b.w / 16));
+                    const rows = Math.max(2, Math.floor(b.h / 20));
+                    const windows = [];
+                    for (let r = 0; r < rows; r++) {
+                        for (let c = 0; c < cols; c++) {
+                            windowIndex++;
+                            const lit = seeded(windowIndex) > 0.45;
+                            if (!lit) continue;
+                            const wx = b.x + 6 + c * (b.w - 12) / cols;
+                            const wy = (200 - b.h) + 10 + r * (b.h - 20) / rows;
+                            const delay = (seeded(windowIndex * 7) * 6).toFixed(2);
+                            windows.push(
+                                <rect
+                                    key={`${bi}-${r}-${c}`}
+                                    className="window"
+                                    x={wx} y={wy} width="4" height="6"
+                                    fill="#F0A93B"
+                                    style={{animationDelay: `${delay}s`}}
+                                />
+                            );
+                        }
+                    }
+                    return (
+                        <g key={bi}>
+                            <rect x={b.x} y={200 - b.h} width={b.w} height={b.h} fill="#0A0D1C"/>
+                            {windows}
+                        </g>
+                    );
+                })}
+            </svg>
+        </div>
+    );
+};
+
 const Home = () => {
     const navigate = useNavigate();
     const [featured, setFeatured] = useState([]);
     const [loading, setLoading] = useState(true);
     const [search, setSearch] = useState('');
     const [type, setType] = useState('');
+
+    const [catRef, catVisible] = useInView();
+    const [featRef, featVisible] = useInView();
+    const [ctaRef, ctaVisible] = useInView();
 
     useEffect(() => {
         getFeatured()
@@ -148,7 +211,7 @@ const Home = () => {
                         Property Today
                     </h1>
                     <p className="hero-sub">
-                        Browse thousands of apartments, houses, offices & land across Bangladesh.
+                        Browse thousands of apartments, houses, offices &amp; land across Bangladesh.
                     </p>
 
                     <form className="search-bar" onSubmit={handleSearch}>
@@ -183,23 +246,24 @@ const Home = () => {
                         </div>
                     </form>
                 </div>
+                <HeroSkyline/>
             </section>
 
             <section className="stats-bar">
                 {stats.map((s) => (
                     <div className="stat-item" key={s.label}>
-                        <div className="stat-value">{s.value}</div>
+                        <div className="stat-value"><CountUp value={s.value}/></div>
                         <div className="stat-label">{s.label}</div>
                     </div>
                 ))}
             </section>
 
-            <section className="section">
+            <section className="section" ref={catRef}>
                 <div className="container">
-                    <div className="section-header">
+                    <div className={`section-header reveal ${catVisible ? 'is-visible' : ''}`}>
                         <h2 className="section-title">Browse by Category</h2>
                     </div>
-                    <div className="category-grid">
+                    <div className={`category-grid reveal-stagger ${catVisible ? 'is-visible' : ''}`}>
                         {categories.map((c) => (
                             <button
                                 key={c.value}
@@ -214,9 +278,9 @@ const Home = () => {
                 </div>
             </section>
 
-            <section className="section section-dark">
+            <section className="section section-dark" ref={featRef}>
                 <div className="container">
-                    <div className="section-header">
+                    <div className={`section-header reveal ${featVisible ? 'is-visible' : ''}`}>
                         <h2 className="section-title">Featured Properties</h2>
                         <button className="link-btn" onClick={() => navigate('/properties')}>
                             View all →
@@ -229,16 +293,16 @@ const Home = () => {
                     ) : featured.length === 0 ? (
                         <p className="empty-msg">No featured properties yet.</p>
                     ) : (
-                        <div className="prop-grid">
+                        <div className={`prop-grid reveal-stagger ${featVisible ? 'is-visible' : ''}`}>
                             {featured.map(p => <PropertyCard key={p.id} property={p}/>)}
                         </div>
                     )}
                 </div>
             </section>
 
-            <section className="cta-section">
+            <section className="cta-section" ref={ctaRef}>
                 <div className="container">
-                    <div className="cta-box">
+                    <div className={`cta-box reveal ${ctaVisible ? 'is-visible' : ''}`}>
                         <div className="cta-text">
                             <h2>Have a property to sell or rent?</h2>
                             <p>List it for free. Reach thousands of buyers across Bangladesh.</p>

@@ -26,10 +26,10 @@ const PropertyCard = ({ property, onWishlistChange }) => {
     }).format(price);
 
   const typeBadge = {
-    rent: { label: 'For Rent',  color: '#10b981' },
-    buy:  { label: 'For Sale',  color: '#3b82f6' },
-    both: { label: 'Rent/Sale', color: '#8b5cf6' },
-  }[property.property_type] || { label: property.property_type, color: '#64748b' };
+    rent: { label: 'For Rent',  color: '#12896F' },
+    buy:  { label: 'For Sale',  color: '#263566' },
+    both: { label: 'Rent/Sale', color: '#8657C7' },
+  }[property.property_type] || { label: property.property_type, color: '#545C7C' };
 
   return (
     <Link to={`/properties/${property.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>

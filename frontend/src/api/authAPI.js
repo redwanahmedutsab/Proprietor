@@ -1,6 +1,12 @@
 import API from './axiosInstance';
 
 
+export const sendRegistrationOTP = (email) =>
+    API.post('/auth/otp/send/', {email});
+
+export const verifyRegistrationOTP = (email, otp_code) =>
+    API.post('/auth/otp/verify/', {email, otp_code});
+
 export const registerUser = (data) =>
     API.post('/auth/register/', data);
 

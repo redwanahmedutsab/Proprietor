@@ -1,7 +1,7 @@
 import re
 from rest_framework import serializers
 from django.contrib.auth.password_validation import validate_password
-from .models import CustomUser
+from .models import CustomUser, EmailOTP
 
 
 class RegisterSerializer(serializers.ModelSerializer):
@@ -47,6 +47,13 @@ class RegisterSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError(
                 {"password2": "Passwords do not match."}
             )
+
+        email = attrs.get('email')
+        verified = EmailOTP.objects.filter(email=email, is_verified=True).exists()
+        if not verified:
+            raise serializers.ValidationError(
+                {"email": "Please verify this email with the OTP sent to it before signing up."}
+            )
         return attrs
 
     def create(self, validated_data):
@@ -55,7 +62,27 @@ class RegisterSerializer(serializers.ModelSerializer):
         user = CustomUser(**validated_data)
         user.set_password(password)  # bcrypt hash — never stored plain
         user.save()
+        # OTP has served its purpose — clear it so it can't be reused.
+        EmailOTP.objects.filter(email=user.email).delete()
         return user
+
+
+class SendOTPSerializer(serializers.Serializer):
+    email = serializers.EmailField()
+
+    def validate_email(self, value):
+        value = value.lower()
+        if CustomUser.objects.filter(email=value).exists():
+            raise serializers.ValidationError("This email is already registered.")
+        return value
+
+
+class VerifyOTPSerializer(serializers.Serializer):
+    email = serializers.EmailField()
+    otp_code = serializers.CharField(min_length=6, max_length=6)
+
+    def validate_email(self, value):
+        return value.lower()
 
 
 class UserProfileSerializer(serializers.ModelSerializer):

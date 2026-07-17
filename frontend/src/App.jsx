@@ -20,6 +20,7 @@ import './styles/global.css';
 import './styles/booking.css';
 import './styles/polish.css';
 import Developers from "./pages/Developers";
+import PriceEstimator from "./pages/PriceEstimator";
 
 function App() {
     return (
@@ -37,6 +38,7 @@ function App() {
                     <Route path="/login" element={<Login/>}/>
                     <Route path="/register" element={<Register/>}/>
                     <Route path="/developers" element={<Developers/>}/>
+                    <Route path="/price-estimator" element={<PriceEstimator/>}/>
 
                     <Route path="/payment/success" element={<PaymentResult result="success"/>}/>
                     <Route path="/payment/fail" element={<PaymentResult result="fail"/>}/>

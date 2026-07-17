@@ -9,9 +9,15 @@ from .views import (
     ProfileView,
     ChangePasswordView,
     LogoutView,
+    SendOTPView,
+    VerifyOTPView,
 )
 
 urlpatterns = [
+    path('otp/send/', SendOTPView.as_view(), name='otp-send'),
+
+    path('otp/verify/', VerifyOTPView.as_view(), name='otp-verify'),
+
     path('register/', RegisterView.as_view(), name='auth-register'),
 
     path('login/', TokenObtainPairView.as_view(), name='auth-login'),

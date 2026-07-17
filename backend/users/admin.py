@@ -1,6 +1,15 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import CustomUser
+from .models import CustomUser, EmailOTP
+
+
+@admin.register(EmailOTP)
+class EmailOTPAdmin(admin.ModelAdmin):
+    list_display = ('email', 'otp_code', 'is_verified', 'attempts', 'created_at', 'expires_at')
+    list_filter = ('is_verified',)
+    search_fields = ('email',)
+    ordering = ('-created_at',)
+    readonly_fields = ('otp_code', 'created_at')
 
 
 @admin.register(CustomUser)

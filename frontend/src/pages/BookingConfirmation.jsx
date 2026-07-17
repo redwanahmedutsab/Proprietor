@@ -68,7 +68,7 @@ const BookingConfirmation = () => {
                 <button
                     onClick={() => navigate('/dashboard')}
                     style={{
-                        background: '#1a56db', color: '#fff', border: 'none',
+                        background: '#263566', color: '#fff', border: 'none',
                         borderRadius: 8, padding: '.75rem', fontWeight: 700,
                         fontSize: '.95rem', cursor: 'pointer', width: '100%',
                         marginBottom: '.6rem',

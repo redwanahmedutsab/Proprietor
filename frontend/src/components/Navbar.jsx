@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
 import {Link, useNavigate, useLocation} from 'react-router-dom';
 import useAuth from '../hooks/useAuth';
 
@@ -8,6 +8,14 @@ const Navbar = () => {
     const location = useLocation();
     const [menuOpen, setMenuOpen] = useState(false);
     const [dropOpen, setDropOpen] = useState(false);
+    const [scrolled, setScrolled] = useState(false);
+
+    useEffect(() => {
+        const onScroll = () => setScrolled(window.scrollY > 8);
+        onScroll();
+        window.addEventListener('scroll', onScroll, {passive: true});
+        return () => window.removeEventListener('scroll', onScroll);
+    }, []);
 
     const isActive = (path) => location.pathname === path;
 
@@ -18,7 +26,7 @@ const Navbar = () => {
     };
 
     return (
-        <nav className="navbar">
+        <nav className={`navbar ${scrolled ? 'scrolled' : ''}`}>
             <div className="nav-inner">
 
                 <Link to="/" className="nav-logo">
@@ -32,6 +40,8 @@ const Navbar = () => {
                           className={`nav-link ${isActive('/properties') ? 'active' : ''}`}>Properties</Link>
                     <Link to="/developers"
                           className={`nav-link ${isActive('/developers') ? 'active' : ''}`}>Developers</Link>
+                    <Link to="/price-estimator"
+                          className={`nav-link ${isActive('/price-estimator') ? 'active' : ''}`}>🤖 Price AI</Link>
                 </div>
 
                 <div className="nav-right">
@@ -99,6 +109,7 @@ const Navbar = () => {
                     <Link to="/" className="mob-link" onClick={() => setMenuOpen(false)}>Home</Link>
                     <Link to="/properties" className="mob-link" onClick={() => setMenuOpen(false)}>Properties</Link>
                     <Link to="/developers" className="mob-link" onClick={() => setMenuOpen(false)}>Developers</Link>
+                    <Link to="/price-estimator" className="mob-link" onClick={() => setMenuOpen(false)}>🤖 Price AI</Link>
                     {isAuthenticated ? (
                         <>
                             <Link to="/dashboard" className="mob-link"

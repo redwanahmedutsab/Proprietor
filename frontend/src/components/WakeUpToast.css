@@ -35,18 +35,18 @@
 
 /* ---- State colours ---- */
 .wakeup-toast--checking {
-    background: #f0f4ff;
-    border-left: 4px solid #7c9ef5;
+    background: #EEF0F8;
+    border-left: 4px solid #263566;
 }
 
 .wakeup-toast--sleeping {
-    background: #fffbf0;
-    border-left: 4px solid #f5a623;
+    background: #FFF7E6;
+    border-left: 4px solid #D6871B;
 }
 
 .wakeup-toast--awake {
-    background: #f0fff6;
-    border-left: 4px solid #34c975;
+    background: #EAFBF3;
+    border-left: 4px solid #0E9F6E;
 }
 
 /* ---- Icon ---- */
@@ -78,7 +78,7 @@
 .wakeup-toast__body em {
     font-style: normal;
     font-weight: 600;
-    color: #f5a623;
+    color: #D6871B;
 }
 
 /* ---- Dismiss button ---- */
@@ -109,7 +109,7 @@
     width: 7px;
     height: 7px;
     border-radius: 50%;
-    background: #f5a623;
+    background: #D6871B;
     animation: dot-bounce 1.2s infinite ease-in-out;
 }
 
@@ -133,7 +133,7 @@
         border-top: 4px solid;
     }
 
-    .wakeup-toast--sleeping { border-top-color: #f5a623; }
-    .wakeup-toast--awake    { border-top-color: #34c975; }
-    .wakeup-toast--checking { border-top-color: #7c9ef5; }
+    .wakeup-toast--sleeping { border-top-color: #D6871B; }
+    .wakeup-toast--awake    { border-top-color: #0E9F6E; }
+    .wakeup-toast--checking { border-top-color: #263566; }
 }

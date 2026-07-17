@@ -1,5 +1,12 @@
 import {createContext, useState, useEffect, useCallback} from 'react';
-import {loginUser, logoutUser, getProfile, registerUser} from '../api/authAPI';
+import {
+    loginUser,
+    logoutUser,
+    getProfile,
+    registerUser,
+    sendRegistrationOTP,
+    verifyRegistrationOTP,
+} from '../api/authAPI';
 
 export const AuthContext = createContext(null);
 
@@ -20,6 +27,27 @@ export const AuthProvider = ({children}) => {
                 .finally(() => setLoading(false));
         } else {
             setLoading(false);
+        }
+    }, []);
+
+    const sendOtp = useCallback(async (email) => {
+        try {
+            const {data} = await sendRegistrationOTP(email);
+            return {success: true, retryAfter: data.retry_after};
+        } catch (err) {
+            const payload = err.response?.data || {};
+            const msg = payload.error || payload.email?.[0] || 'Failed to send verification code.';
+            return {success: false, error: msg, retryAfter: payload.retry_after};
+        }
+    }, []);
+
+    const verifyOtp = useCallback(async (email, otpCode) => {
+        try {
+            await verifyRegistrationOTP(email, otpCode);
+            return {success: true};
+        } catch (err) {
+            const msg = err.response?.data?.error || 'Invalid verification code.';
+            return {success: false, error: msg};
         }
     }, []);
 
@@ -79,6 +107,8 @@ export const AuthProvider = ({children}) => {
                 error,
                 isAuthenticated: !!user,
                 register,
+                sendOtp,
+                verifyOtp,
                 login,
                 logout,
                 updateUser,
