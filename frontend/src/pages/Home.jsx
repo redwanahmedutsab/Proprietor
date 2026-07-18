@@ -99,63 +99,6 @@ const RenderToast = () => {
     );
 };
 
-// Signature element: a low-rise Dhaka skyline silhouette with amber
-// "lit window" rectangles that twinkle at random, anchoring the hero
-// to the idea that a home is a lit window somewhere in the city.
-const HeroSkyline = () => {
-    // Deterministic pseudo-random so markup is stable across renders.
-    const seeded = (i) => ((i * 9301 + 49297) % 233280) / 233280;
-
-    const buildings = [
-        {x: 0, w: 70, h: 90}, {x: 68, w: 46, h: 130}, {x: 112, w: 60, h: 70},
-        {x: 170, w: 40, h: 150}, {x: 208, w: 80, h: 100}, {x: 286, w: 50, h: 175},
-        {x: 334, w: 66, h: 85}, {x: 398, w: 44, h: 140}, {x: 440, w: 90, h: 110},
-        {x: 528, w: 56, h: 160}, {x: 582, w: 70, h: 90}, {x: 650, w: 48, h: 130},
-        {x: 696, w: 64, h: 75}, {x: 758, w: 40, h: 150}, {x: 796, w: 84, h: 100},
-        {x: 878, w: 50, h: 175}, {x: 926, w: 66, h: 85}, {x: 990, w: 44, h: 140},
-        {x: 1032, w: 90, h: 110}, {x: 1120, w: 56, h: 160}, {x: 1174, w: 66, h: 90},
-    ];
-
-    let windowIndex = 0;
-
-    return (
-        <div className="hero-skyline" aria-hidden="true">
-            <svg viewBox="0 0 1240 200" preserveAspectRatio="none">
-                {buildings.map((b, bi) => {
-                    const cols = Math.max(2, Math.floor(b.w / 16));
-                    const rows = Math.max(2, Math.floor(b.h / 20));
-                    const windows = [];
-                    for (let r = 0; r < rows; r++) {
-                        for (let c = 0; c < cols; c++) {
-                            windowIndex++;
-                            const lit = seeded(windowIndex) > 0.45;
-                            if (!lit) continue;
-                            const wx = b.x + 6 + c * (b.w - 12) / cols;
-                            const wy = (200 - b.h) + 10 + r * (b.h - 20) / rows;
-                            const delay = (seeded(windowIndex * 7) * 6).toFixed(2);
-                            windows.push(
-                                <rect
-                                    key={`${bi}-${r}-${c}`}
-                                    className="window"
-                                    x={wx} y={wy} width="4" height="6"
-                                    fill="#F0A93B"
-                                    style={{animationDelay: `${delay}s`}}
-                                />
-                            );
-                        }
-                    }
-                    return (
-                        <g key={bi}>
-                            <rect x={b.x} y={200 - b.h} width={b.w} height={b.h} fill="#0A0D1C"/>
-                            {windows}
-                        </g>
-                    );
-                })}
-            </svg>
-        </div>
-    );
-};
-
 const Home = () => {
     const navigate = useNavigate();
     const [featured, setFeatured] = useState([]);
@@ -165,6 +108,7 @@ const Home = () => {
 
     const [catRef, catVisible] = useInView();
     const [featRef, featVisible] = useInView();
+    const [testiRef, testiVisible] = useInView();
     const [ctaRef, ctaVisible] = useInView();
 
     useEffect(() => {
@@ -191,20 +135,51 @@ const Home = () => {
     ];
 
     const categories = [
-        {icon: '🏢', label: 'Apartment', value: 'apartment'},
-        {icon: '🏠', label: 'House', value: 'house'},
-        {icon: '🏬', label: 'Office', value: 'office'},
-        {icon: '🛒', label: 'Shop', value: 'shop'},
-        {icon: '🌿', label: 'Land', value: 'land'},
+        {icon: '🏢', label: 'Apartment', value: 'apartment', photo: 'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=500&q=70'},
+        {icon: '🏠', label: 'House', value: 'house', photo: 'https://images.unsplash.com/photo-1568605114967-8130f3a36994?auto=format&fit=crop&w=500&q=70'},
+        {icon: '🏬', label: 'Office', value: 'office', photo: 'https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=500&q=70'},
+        {icon: '🛒', label: 'Shop', value: 'shop', photo: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=500&q=70'},
+        {icon: '🌿', label: 'Land', value: 'land', photo: 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=500&q=70'},
+    ];
+
+    const cities = [
+        'Dhaka', 'Chattogram', 'Sylhet', 'Khulna', 'Rajshahi',
+        'Barishal', 'Rangpur', 'Gazipur', 'Cumilla', 'Narayanganj',
+    ];
+
+    const testimonials = [
+        {
+            text: 'Found our new apartment in Gulshan within two weeks. The filters and map view made shortlisting so much easier than the usual listing sites.',
+            name: 'Farhana Rahman',
+            role: 'Renter, Dhaka',
+        },
+        {
+            text: 'Listed my family land in Sylhet for sale and had serious inquiries within days. The whole process felt transparent from start to finish.',
+            name: 'Kamrul Hasan',
+            role: 'Property Owner, Sylhet',
+        },
+        {
+            text: 'The price estimator gave me a realistic number before I even listed. Booking a viewing was as easy as picking a time slot.',
+            name: 'Nusrat Jahan',
+            role: 'Buyer, Chattogram',
+        },
     ];
 
     return (
         <div className="home">
             <RenderToast/>
 
-            <section className="hero">
-                <div className="hero-bg"/>
-                <div className="hero-content">
+            <section className="hero-v2">
+                <div className="hero-media" aria-hidden="true">
+                    <img
+                        className="hero-photo"
+                        src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1800&q=80"
+                        alt=""
+                    />
+                    <div className="hero-scrim"/>
+                </div>
+
+                <div className="hero-inner">
                     <div className="hero-eyebrow">Bangladesh's #1 Real Estate Platform</div>
                     <h1 className="hero-title">
                         Find Your <span className="hero-accent">Perfect</span><br/>
@@ -213,40 +188,47 @@ const Home = () => {
                     <p className="hero-sub">
                         Browse thousands of apartments, houses, offices &amp; land across Bangladesh.
                     </p>
-
-                    <form className="search-bar" onSubmit={handleSearch}>
-                        <div className="search-type">
-                            <button
-                                type="button"
-                                className={`type-btn ${type === '' ? 'active' : ''}`}
-                                onClick={() => setType('')}
-                            >All
-                            </button>
-                            <button
-                                type="button"
-                                className={`type-btn ${type === 'rent' ? 'active' : ''}`}
-                                onClick={() => setType('rent')}
-                            >Rent
-                            </button>
-                            <button
-                                type="button"
-                                className={`type-btn ${type === 'buy' ? 'active' : ''}`}
-                                onClick={() => setType('buy')}
-                            >Buy
-                            </button>
-                        </div>
-                        <div className="search-input-row">
-                            <input
-                                className="search-input"
-                                placeholder="Search by city, area, or keyword..."
-                                value={search}
-                                onChange={(e) => setSearch(e.target.value)}
-                            />
-                            <button type="submit" className="search-btn">Search</button>
-                        </div>
-                    </form>
                 </div>
-                <HeroSkyline/>
+
+                <form className="hero-search-card" onSubmit={handleSearch}>
+                    <div className="search-type">
+                        <button
+                            type="button"
+                            className={`type-btn ${type === '' ? 'active' : ''}`}
+                            onClick={() => setType('')}
+                        >All
+                        </button>
+                        <button
+                            type="button"
+                            className={`type-btn ${type === 'rent' ? 'active' : ''}`}
+                            onClick={() => setType('rent')}
+                        >Rent
+                        </button>
+                        <button
+                            type="button"
+                            className={`type-btn ${type === 'buy' ? 'active' : ''}`}
+                            onClick={() => setType('buy')}
+                        >Buy
+                        </button>
+                    </div>
+                    <div className="search-input-row">
+                        <input
+                            className="search-input"
+                            placeholder="Search by city, area, or keyword..."
+                            value={search}
+                            onChange={(e) => setSearch(e.target.value)}
+                        />
+                        <button type="submit" className="search-btn">Search</button>
+                    </div>
+                </form>
+            </section>
+
+            <section className="trust-strip" aria-hidden="true">
+                <div className="trust-track">
+                    {[...cities, ...cities].map((city, i) => (
+                        <span key={i}>{city}</span>
+                    ))}
+                </div>
             </section>
 
             <section className="stats-bar">
@@ -268,6 +250,7 @@ const Home = () => {
                             <button
                                 key={c.value}
                                 className="category-card"
+                                style={{backgroundImage: `linear-gradient(180deg, rgba(10,13,28,.15), rgba(10,13,28,.72)), url(${c.photo})`}}
                                 onClick={() => navigate(`/properties?category=${c.value}`)}
                             >
                                 <span className="cat-icon">{c.icon}</span>
@@ -297,6 +280,32 @@ const Home = () => {
                             {featured.map(p => <PropertyCard key={p.id} property={p}/>)}
                         </div>
                     )}
+                </div>
+            </section>
+
+            <section className="section" ref={testiRef}>
+                <div className="container">
+                    <div className={`section-header reveal ${testiVisible ? 'is-visible' : ''}`}>
+                        <h2 className="section-title">What our clients say</h2>
+                    </div>
+                    <div className={`testimonial-grid reveal-stagger ${testiVisible ? 'is-visible' : ''}`}>
+                        {testimonials.map((t) => (
+                            <div className="testimonial-card" key={t.name}>
+                                <div className="testimonial-quote-mark">&ldquo;</div>
+                                <p className="testimonial-text">{t.text}</p>
+                                <div className="testimonial-person">
+                                    <div className="testimonial-avatar">
+                                        {t.name.split(' ').map(n => n[0]).join('')}
+                                    </div>
+                                    <div>
+                                        <div className="testimonial-name">{t.name}</div>
+                                        <div className="testimonial-role">{t.role}</div>
+                                        <div className="testimonial-stars">★★★★★</div>
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
                 </div>
             </section>
 

@@ -1,0 +1,405 @@
+/* ══════════════════════════════════════════════════════════════
+   SHOWCASE LAYER
+   Additive "wow" polish on top of global.css — floating gradient
+   orbs, glass depth, marquee, testimonials, and richer micro-
+   interactions. Nothing here overrides structure, only elevates it.
+   ══════════════════════════════════════════════════════════════ */
+
+/* ── Scroll progress bar ─────────────────────────────────────── */
+.scroll-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 3px;
+    z-index: 999;
+    background: linear-gradient(90deg, var(--gold-deep), var(--gold) 45%, #fff);
+    box-shadow: 0 0 10px rgba(240, 169, 59, .55);
+    transform-origin: left;
+    transition: width .08s linear;
+}
+
+/* ── Hero: responsive tweaks for the floating search card ───── */
+@media (max-width: 720px) {
+    .hero-v2 { margin-bottom: 140px; }
+    .hero-search-card { bottom: -110px; }
+    .search-input-row { flex-wrap: wrap; }
+    .search-input-row .search-btn { width: 100%; }
+}
+
+/* ── Category tiles: real photography instead of flat icon cards ── */
+.category-card {
+    background-size: cover;
+    background-position: center;
+    color: #fff;
+    min-height: 140px;
+    justify-content: flex-end;
+    align-items: flex-start;
+    text-align: left;
+    overflow: hidden;
+    position: relative;
+}
+
+.category-card .cat-icon {
+    filter: drop-shadow(0 2px 6px rgba(0, 0, 0, .4));
+}
+
+.category-card .cat-label {
+    color: #fff;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, .5);
+}
+
+/* ── Properties page: list/map toggle ─────────────────────────── */
+.page-header-right {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.view-toggle {
+    display: flex;
+    background: var(--bg);
+    border: 1.5px solid var(--border);
+    border-radius: 50px;
+    padding: .2rem;
+    gap: .2rem;
+}
+
+.view-toggle-btn {
+    background: none;
+    border: none;
+    padding: .4rem .95rem;
+    border-radius: 50px;
+    font-size: .82rem;
+    font-weight: 600;
+    color: var(--text2);
+    transition: all .2s var(--ease);
+}
+
+.view-toggle-btn.active {
+    background: var(--surface);
+    color: var(--accent);
+    box-shadow: var(--shadow);
+}
+
+.listing-map-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.listing-map-iframe {
+    width: 100%;
+    height: 380px;
+    border: none;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+}
+
+.listing-map-hint {
+    font-size: .8rem;
+    color: var(--text3);
+    text-align: center;
+}
+
+/* ── Property card: marketplace meta row (owner + listed date) ── */
+.card-meta-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: .7rem;
+    padding-top: .6rem;
+    border-top: 1px dashed var(--border);
+    font-size: .72rem;
+    color: var(--text3);
+}
+
+.card-meta-owner {
+    display: flex;
+    align-items: center;
+    gap: .35rem;
+    font-weight: 600;
+    color: var(--text2);
+}
+
+.card-meta-owner-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--teal);
+    flex-shrink: 0;
+}
+
+/* ── Button shine sweep (search + CTA) ───────────────────────── */
+.search-btn, .cta-btn, .btn-primary {
+    position: relative;
+    overflow: hidden;
+}
+
+.search-btn::before, .cta-btn::before, .btn-primary::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -60%;
+    width: 40%;
+    height: 100%;
+    background: linear-gradient(115deg, transparent, rgba(255, 255, 255, .55), transparent);
+    transform: skewX(-20deg);
+    transition: left .55s var(--ease);
+}
+
+.search-btn:hover::before, .cta-btn:hover::before, .btn-primary:hover::before {
+    left: 130%;
+}
+
+/* ── Section title: animated gradient accent underline ───────── */
+.section-title {
+    position: relative;
+    display: inline-block;
+    padding-bottom: .5rem;
+}
+
+.section-title::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 3px;
+    width: 46px;
+    border-radius: 3px;
+    background: linear-gradient(90deg, var(--gold-deep), var(--gold));
+}
+
+/* ── Trust marquee strip ──────────────────────────────────────── */
+.trust-strip {
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: .9rem 0;
+    overflow: hidden;
+    position: relative;
+}
+
+.trust-strip::before, .trust-strip::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 60px;
+    z-index: 2;
+    pointer-events: none;
+}
+
+.trust-strip::before {
+    left: 0;
+    background: linear-gradient(90deg, var(--surface), transparent);
+}
+
+.trust-strip::after {
+    right: 0;
+    background: linear-gradient(270deg, var(--surface), transparent);
+}
+
+.trust-track {
+    display: flex;
+    gap: 3.2rem;
+    width: max-content;
+    animation: marquee 26s linear infinite;
+}
+
+.trust-track span {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: .95rem;
+    color: var(--text3);
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+}
+
+.trust-track span::before {
+    content: '📍';
+    font-size: .8rem;
+    opacity: .7;
+}
+
+@keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .trust-track { animation: none; }
+}
+
+/* ── Property card v2: hover reveal + glow ───────────────────── */
+.property-card {
+    position: relative;
+}
+
+.property-card::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: calc(var(--radius) + 1px);
+    padding: 1px;
+    background: linear-gradient(135deg, var(--gold), transparent 40%);
+    opacity: 0;
+    transition: opacity .3s var(--ease);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+}
+
+.property-card:hover::before {
+    opacity: 1;
+}
+
+.card-image-wrap::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(10, 13, 28, .55) 0%, transparent 45%);
+    opacity: 0;
+    transition: opacity .3s var(--ease);
+    pointer-events: none;
+}
+
+.property-card:hover .card-image-wrap::after {
+    opacity: 1;
+}
+
+.card-quick-view {
+    position: absolute;
+    left: .9rem;
+    bottom: .8rem;
+    color: #fff;
+    font-size: .74rem;
+    font-weight: 700;
+    letter-spacing: .03em;
+    opacity: 0;
+    transform: translateY(6px);
+    transition: all .3s var(--ease);
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    gap: .3rem;
+}
+
+.property-card:hover .card-quick-view {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ── Testimonials ─────────────────────────────────────────────── */
+.testimonial-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.3rem;
+}
+
+@media (max-width: 860px) {
+    .testimonial-grid { grid-template-columns: 1fr; }
+}
+
+.testimonial-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.6rem 1.5rem;
+    box-shadow: var(--shadow);
+    transition: all .3s var(--ease);
+    position: relative;
+}
+
+.testimonial-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--gold-soft);
+}
+
+.testimonial-quote-mark {
+    font-family: var(--font-display);
+    font-size: 2.6rem;
+    font-style: italic;
+    color: var(--gold-soft);
+    line-height: 1;
+    margin-bottom: -.4rem;
+}
+
+.testimonial-text {
+    font-size: .92rem;
+    color: var(--text2);
+    line-height: 1.7;
+    margin-bottom: 1.1rem;
+}
+
+.testimonial-person {
+    display: flex;
+    align-items: center;
+    gap: .7rem;
+}
+
+.testimonial-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: .85rem;
+    flex-shrink: 0;
+}
+
+.testimonial-name {
+    font-weight: 700;
+    font-size: .88rem;
+    color: var(--text);
+}
+
+.testimonial-role {
+    font-size: .76rem;
+    color: var(--text3);
+}
+
+.testimonial-stars {
+    margin-top: .15rem;
+    color: var(--gold-deep);
+    font-size: .78rem;
+    letter-spacing: .1em;
+}
+
+/* ── CTA: subtle animated glow ring ──────────────────────────── */
+.cta-box {
+    background-size: 200% 200%;
+    animation: ctaGradient 8s ease infinite;
+}
+
+@keyframes ctaGradient {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+}
+
+/* ── Category card icon micro-bounce ─────────────────────────── */
+.category-card {
+    position: relative;
+}
+
+.category-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: var(--radius);
+    background: radial-gradient(circle at 50% 0%, var(--gold-soft), transparent 70%);
+    opacity: 0;
+    transition: opacity .3s var(--ease);
+    pointer-events: none;
+}
+
+.category-card:hover::after {
+    opacity: 1;
+}

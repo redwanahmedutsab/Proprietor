@@ -1,4 +1,4 @@
-import {useEffect} from 'react';
+import {useEffect, useState} from 'react';
 import {useSearchParams} from 'react-router-dom';
 import PropertyCard from '../components/PropertyCard';
 import FilterPanel from '../components/FilterPanel';
@@ -8,6 +8,7 @@ const Properties = () => {
     const [searchParams] = useSearchParams();
     const {properties, loading, error, count, filters, applyFilters, resetFilters} =
         useProperties();
+    const [view, setView] = useState('list');
 
     useEffect(() => {
         const params = {};
@@ -16,15 +17,31 @@ const Properties = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
+    const mapQuery = filters.city || filters.area || 'Bangladesh';
+
     return (
         <div className="properties-page">
             <div className="container">
 
                 <div className="page-header">
                     <h1 className="page-title">Properties</h1>
-                    <span className="result-count">
-            {loading ? '...' : `${count} result${count !== 1 ? 's' : ''}`}
-          </span>
+                    <div className="page-header-right">
+                        <span className="result-count">
+                            {loading ? '...' : `${count} result${count !== 1 ? 's' : ''}`}
+                        </span>
+                        <div className="view-toggle">
+                            <button
+                                className={`view-toggle-btn ${view === 'list' ? 'active' : ''}`}
+                                onClick={() => setView('list')}
+                            >☰ List
+                            </button>
+                            <button
+                                className={`view-toggle-btn ${view === 'map' ? 'active' : ''}`}
+                                onClick={() => setView('map')}
+                            >📍 Map
+                            </button>
+                        </div>
+                    </div>
                 </div>
 
                 <div className="properties-layout">
@@ -38,7 +55,25 @@ const Properties = () => {
                     </aside>
 
                     <main className="properties-main">
-                        {loading ? (
+                        {view === 'map' ? (
+                            <div className="listing-map-wrap">
+                                <iframe
+                                    title={`Map of ${mapQuery}`}
+                                    src={`https://maps.google.com/maps?q=${encodeURIComponent(mapQuery)}&z=12&output=embed`}
+                                    className="listing-map-iframe"
+                                    loading="lazy"
+                                    referrerPolicy="no-referrer-when-downgrade"
+                                />
+                                <p className="listing-map-hint">
+                                    Showing the {mapQuery} area — open a listing below for its exact pin.
+                                </p>
+                                <div className="prop-grid">
+                                    {properties.map(p => (
+                                        <PropertyCard key={p.id} property={p}/>
+                                    ))}
+                                </div>
+                            </div>
+                        ) : loading ? (
                             <div className="prop-grid">
                                 {[1, 2, 3, 4, 5, 6].map(i => <div key={i} className="skeleton-card"/>)}
                             </div>

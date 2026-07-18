@@ -25,6 +25,17 @@ const PropertyCard = ({ property, onWishlistChange }) => {
       style: 'currency', currency: 'BDT', maximumFractionDigits: 0,
     }).format(price);
 
+  const relativeTime = (dateStr) => {
+    if (!dateStr) return null;
+    const diffMs = Date.now() - new Date(dateStr).getTime();
+    const days = Math.floor(diffMs / 86400000);
+    if (days <= 0) return 'Listed today';
+    if (days === 1) return 'Listed yesterday';
+    if (days < 30) return `Listed ${days}d ago`;
+    const months = Math.floor(days / 30);
+    return `Listed ${months}mo ago`;
+  };
+
   const typeBadge = {
     rent: { label: 'For Rent',  color: '#12896F' },
     buy:  { label: 'For Sale',  color: '#263566' },
@@ -56,6 +67,8 @@ const PropertyCard = ({ property, onWishlistChange }) => {
           {property.is_featured && (
             <span className="featured-badge">⭐ Featured</span>
           )}
+
+          <span className="card-quick-view">View details →</span>
         </div>
 
         <div className="card-body">
@@ -68,6 +81,17 @@ const PropertyCard = ({ property, onWishlistChange }) => {
             {property.bathrooms > 0 && <span>🚿 {property.bathrooms} bath</span>}
             {property.area_sqft      && <span>📐 {property.area_sqft} sqft</span>}
           </div>
+
+          {(property.owner_name || property.created_at) && (
+            <div className="card-meta-row">
+              {property.owner_name && (
+                <span className="card-meta-owner">
+                  <span className="card-meta-owner-dot"/>{property.owner_name}
+                </span>
+              )}
+              {property.created_at && <span>{relativeTime(property.created_at)}</span>}
+            </div>
+          )}
         </div>
 
       </div>

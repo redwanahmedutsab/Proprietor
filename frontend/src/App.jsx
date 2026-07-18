@@ -19,6 +19,8 @@ import PaymentResult from './pages/PaymentResult';
 import './styles/global.css';
 import './styles/booking.css';
 import './styles/polish.css';
+import './styles/showcase.css';
+import ScrollProgress from './components/ScrollProgress';
 import Developers from "./pages/Developers";
 import PriceEstimator from "./pages/PriceEstimator";
 
@@ -26,6 +28,7 @@ function App() {
     return (
         <AuthProvider>
             <Router>
+                <ScrollProgress/>
                 <Navbar/>
 
                 {/* Render free-tier wake-up notification — mounts once, self-dismisses */}
